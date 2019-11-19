@@ -1,0 +1,4 @@
+#Mon Nov 18 23:29:46 IST 2019
+base.0=/Users/packiaseelan/code/ct/build/app/intermediates/transforms/r8/release/0/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

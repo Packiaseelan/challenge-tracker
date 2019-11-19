@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "/Users/packiaseelan/code/ct/build/path_provider/intermediates/res/merged/release/layout/notification_template_icon_group.xml",
+        "source": "/Users/packiaseelan/.gradle/caches/transforms-2/files-2.1/eac699f134901d0d2fa5c1a81ade99d0/support-compat-28.0.0/res/layout/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/packiaseelan/code/ct/build/path_provider/intermediates/res/merged/release/layout/notification_action_tombstone.xml",
+        "source": "/Users/packiaseelan/.gradle/caches/transforms-2/files-2.1/eac699f134901d0d2fa5c1a81ade99d0/support-compat-28.0.0/res/layout/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/packiaseelan/code/ct/build/path_provider/intermediates/res/merged/release/layout/notification_template_part_chronometer.xml",
+        "source": "/Users/packiaseelan/.gradle/caches/transforms-2/files-2.1/eac699f134901d0d2fa5c1a81ade99d0/support-compat-28.0.0/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/Users/packiaseelan/code/ct/build/path_provider/intermediates/res/merged/release/layout/notification_template_part_time.xml",
+        "source": "/Users/packiaseelan/.gradle/caches/transforms-2/files-2.1/eac699f134901d0d2fa5c1a81ade99d0/support-compat-28.0.0/res/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "/Users/packiaseelan/code/ct/build/path_provider/intermediates/res/merged/release/layout/notification_action.xml",
+        "source": "/Users/packiaseelan/.gradle/caches/transforms-2/files-2.1/eac699f134901d0d2fa5c1a81ade99d0/support-compat-28.0.0/res/layout/notification_action.xml"
+    }
+]
