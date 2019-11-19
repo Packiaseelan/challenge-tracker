@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/packiaseelan/code/ct/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/Users/packiaseelan/Downloads/samoke/challenge-tracker/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/Users/packiaseelan/.gradle/caches/transforms-2/files-2.1/eac699f134901d0d2fa5c1a81ade99d0/support-compat-28.0.0/res/values/values.xml",
@@ -42,7 +42,7 @@
                     }
                 },
                 {
-                    "source": "/Users/packiaseelan/code/ct/android/app/src/main/res/values/styles.xml",
+                    "source": "/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

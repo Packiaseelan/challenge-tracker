@@ -1,6 +1,8 @@
 import 'package:ct/utils/app-colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/app-colors.dart';
+
 class HeaderView extends StatelessWidget {
   final IconData leftIcon;
   final Function onLeftPressed;
@@ -18,7 +20,12 @@ class HeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      color: headerColor,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(70),
+            bottomRight: Radius.circular(70),
+          ),
+          color: headerColor),
       child: _buildHeader(),
     );
   }
@@ -33,7 +40,10 @@ class HeaderView extends StatelessWidget {
             alignment: Alignment.center,
             child: Center(
               child: IconButton(
-                icon: Icon(leftIcon,color: Colors.white,),
+                icon: Icon(
+                  leftIcon,
+                  color: Colors.white,
+                ),
                 onPressed: onLeftPressed,
               ),
             ),
@@ -41,7 +51,8 @@ class HeaderView extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.w300, color: Colors.white),
+              style:
+                  TextStyle(fontWeight: FontWeight.w300, color: Colors.white),
               textScaleFactor: 2,
             ),
           ),
@@ -49,9 +60,15 @@ class HeaderView extends StatelessWidget {
             alignment: Alignment.center,
             child: Center(
               child: (rightIcon == null)
-                  ? SizedBox(width: 30, height: 30,)
+                  ? SizedBox(
+                      width: 30,
+                      height: 30,
+                    )
                   : IconButton(
-                      icon: Icon(rightIcon,color: Colors.white,),
+                      icon: Icon(
+                        rightIcon,
+                        color: Colors.white,
+                      ),
                       onPressed: onRightPressed,
                     ),
             ),
