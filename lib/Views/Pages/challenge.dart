@@ -39,9 +39,7 @@ class _ChallengePageState extends State<ChallengePage> {
       children: <Widget>[
         HeaderView(
           leftIcon: Icons.arrow_back_ios,
-          onLeftPressed: () {
-            Navigator.of(context).pop();
-          },
+          onLeftPressed: () => Navigator.of(context).pop(),
           title: 'Challenge Details',
         ),
         Expanded(

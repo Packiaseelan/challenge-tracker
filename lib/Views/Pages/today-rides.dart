@@ -31,13 +31,10 @@ class _TodayRidesPageState extends State<TodayRidesPage> {
         HeaderView(
           title: 'Today\'s Ride',
           leftIcon: Icons.arrow_back_ios,
-          onLeftPressed: () {
-            Navigator.of(context).pop();
-          },
+          onLeftPressed: () => Navigator.of(context).pop(),
           rightIcon: Icons.add,
-          onRightPressed: () {
-            Navigator.pushNamed(context, Router.dailyRecord);
-          },
+          onRightPressed: () =>
+              Navigator.pushNamed(context, Router.dailyRecord),
         ),
         _buildTodayDistance(),
         Container(

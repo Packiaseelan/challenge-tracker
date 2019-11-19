@@ -18,9 +18,7 @@ class SideDrawer extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     UserAccountsDrawerHeader(
-                      decoration: BoxDecoration(
-                          color:
-                              headerColor),
+                      decoration: BoxDecoration(color: headerColor),
                       currentAccountPicture: Icon(
                         Icons.person,
                         color: Colors.white,
@@ -70,7 +68,7 @@ class SideDrawer extends StatelessWidget {
                       title: Text('Profile'),
                       onTap: () {
                         Navigator.of(context).pop();
-                        // Navigator.pushNamed(context, addRides);
+                        Navigator.pushNamed(context, Router.profile);
                       },
                     ),
                     ListTile(
@@ -96,15 +94,22 @@ class SideDrawer extends StatelessWidget {
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Exit'),
                 onTap: () {
-                  //Navigator.of(context).pop();
-                  BeautifulAlertDialog(
-                    title: 'Are you sure?',
-                    message: 'You want to exit App.',
-                    acceptText: 'Yes',
-                    discardText: 'No',
-                    child: Icon(Icons.exit_to_app),
-                    onAcceptPressed: () {},
-                    onDiscardPressed: () {},
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) => BeautifulAlertDialog(
+                      child: Icon(
+                        Icons.exit_to_app,
+                        size: 50,
+                        color: Colors.red,
+                      ),
+                      title: 'Are you sure?',
+                      message: 'Do you  want to exit an App?',
+                      acceptText: 'Exit',
+                      discardText: 'Cancel',
+                      onAcceptPressed: () => Navigator.of(context).pop(true),
+                      onDiscardPressed: () => Navigator.of(context).pop(false),
+                    ),
                   );
                 },
               ),

@@ -61,14 +61,11 @@ class _DetailsPageState extends State<DetailsPage> {
 
   Widget _buildBody() {
     return Container(
-      //padding: EdgeInsets.all(20),
       child: Column(
         children: <Widget>[
           HeaderView(
             leftIcon: Icons.arrow_back_ios,
-            onLeftPressed: () {
-              Navigator.of(context).pop();
-            },
+            onLeftPressed: () => Navigator.of(context).pop(),
             title: 'Fill the details',
           ),
           Expanded(

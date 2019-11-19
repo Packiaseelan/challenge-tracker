@@ -21,11 +21,12 @@ class HeaderView extends StatelessWidget {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(70),
-            bottomRight: Radius.circular(70),
-          ),
-          color: headerColor),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(70),
+          bottomRight: Radius.circular(70),
+        ),
+        color: headerColor,        
+      ),
       child: _buildHeader(),
     );
   }

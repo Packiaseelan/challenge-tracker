@@ -30,9 +30,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
         HeaderView(
           title: 'My Challenges',
           leftIcon: Icons.arrow_back_ios,
-          onLeftPressed: () {
-            Navigator.of(context).pop();
-          },
+          onLeftPressed: () => Navigator.of(context).pop(),
           rightIcon: Icons.add,
           onRightPressed: () {
             main.selectedChallenge = null;

@@ -34,9 +34,7 @@ class _DailyRecordPageState extends State<DailyRecordPage> {
       children: <Widget>[
         HeaderView(
           leftIcon: Icons.arrow_back_ios,
-          onLeftPressed: () {
-            Navigator.of(context).pop();
-          },
+          onLeftPressed: () => Navigator.of(context).pop(),
           title: 'Add Ride Records',
         ),
         Expanded(
