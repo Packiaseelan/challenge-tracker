@@ -70,6 +70,7 @@ class MainModel extends Model {
       notifyListeners();
       _dbHelper.insertChallenges(model.toMap());
     } else {
+      challenges.where((d) => d.id == model.id).toList()[0] = model;
       _dbHelper.updateChallenges(model.toMap());
     }
   }

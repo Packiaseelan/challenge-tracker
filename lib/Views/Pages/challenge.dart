@@ -265,6 +265,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
   void _updateSelectedChallengeDetails() {
     if (main.selectedChallenge != null) {
+      challengeName = main.selectedChallenge.challengeName;
       startDate = main.selectedChallenge.startDate;
       endDate = main.selectedChallenge.endDate;
       target = main.selectedChallenge.target;

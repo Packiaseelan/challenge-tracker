@@ -1,5 +1,5 @@
-import 'package:ct/Views/Pages/challenge-details.dart';
 import 'package:ct/Views/Pages/challenge.dart';
+import 'package:ct/Views/Pages/challenge_details.dart';
 import 'package:ct/Views/Pages/challenges.dart';
 import 'package:ct/Views/Pages/daily-record.dart';
 import 'package:ct/Views/Pages/details.dart';
@@ -47,11 +47,11 @@ class Router {
       case todayRides:
         return MaterialPageRoute(builder: (_) => TodayRidesPage());
 
-      case challengeDetails:
-        return MaterialPageRoute(builder: (_) => ChallengeDetailsPage());
-
       case profile:
         return MaterialPageRoute(builder: (_) => ProfilePage());
+
+        case challengeDetails:
+        return MaterialPageRoute(builder: (_) => ChallengeDetails());
 
       default:
         return MaterialPageRoute(

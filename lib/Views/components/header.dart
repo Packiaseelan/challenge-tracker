@@ -1,8 +1,6 @@
 import 'package:ct/utils/app-colors.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/app-colors.dart';
-
 class HeaderView extends StatelessWidget {
   final IconData leftIcon;
   final Function onLeftPressed;
@@ -25,7 +23,7 @@ class HeaderView extends StatelessWidget {
           bottomLeft: Radius.circular(70),
           bottomRight: Radius.circular(70),
         ),
-        color: headerColor,        
+        color: headerColor,
       ),
       child: _buildHeader(),
     );
@@ -52,9 +50,10 @@ class HeaderView extends StatelessWidget {
           Center(
             child: Text(
               title,
-              style:
-                  TextStyle(fontWeight: FontWeight.w300, color: Colors.white),
-              textScaleFactor: 2,
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                color: Colors.white,
+              ),
             ),
           ),
           Container(
