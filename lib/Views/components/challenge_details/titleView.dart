@@ -48,7 +48,7 @@ class TitleView extends StatelessWidget {
                     InkWell(
                       highlightColor: Colors.transparent,
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      onTap: () {},
+                      onTap: onPressed,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Row(

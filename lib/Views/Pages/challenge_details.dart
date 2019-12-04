@@ -1,6 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ct/Views/components/challenge_details/details_view.dart';
 import 'package:ct/Views/components/challenge_details/rides_listview.dart';
 import 'package:ct/Views/components/challenge_details/titleView.dart';
+import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/daily-record.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
@@ -98,7 +100,9 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
       TitleView(
         titleTxt: 'Rides',
         subTxt: 'Add Ride',
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, Router.addRide);
+        },
         animation: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: animationController,
             curve:
@@ -291,9 +295,10 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
                         SizedBox(
                           height: 8,
                         ),
-                        Text(
+                        AutoSizeText(
                           "${DateFormat("dd, MMM, yyyy").format(_model.selectedChallenge.startDate)}",
                           style: dateSubTitle,
+                          maxLines: 1,
                         ),
                       ],
                     ),
@@ -329,9 +334,10 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
                         SizedBox(
                           height: 8,
                         ),
-                        Text(
+                        AutoSizeText(
                           "${DateFormat("dd, MMM, yyyy").format(_model.selectedChallenge.endDate)}",
                           style: dateSubTitle,
+                          maxLines: 1,
                         ),
                       ],
                     ),
@@ -367,9 +373,10 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
                         SizedBox(
                           height: 8,
                         ),
-                        Text(
+                        AutoSizeText(
                           "${_getDurationDays()}",
                           style: dateSubTitle,
+                          maxLines: 1,
                         ),
                       ],
                     ),

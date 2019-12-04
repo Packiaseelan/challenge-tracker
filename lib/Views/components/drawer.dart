@@ -48,11 +48,19 @@ class SideDrawer extends StatelessWidget {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.add),
-                      title: Text('Add Ride'),
+                      leading: Icon(Icons.directions_bike),
+                      title: Text('All Rides'),
                       onTap: () {
                         Navigator.of(context).pop();
-                        Navigator.pushNamed(context, Router.dailyRecord);
+                        Navigator.pushNamed(context, Router.rides);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.add),
+                      title: Text('Add New Ride'),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.pushNamed(context, Router.addRide);
                       },
                     ),
                     ListTile(
