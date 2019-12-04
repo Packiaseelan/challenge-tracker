@@ -10,7 +10,10 @@ class RidesListView extends StatefulWidget {
   final List<DailyRecordModel> rides;
 
   const RidesListView(
-      {Key key, this.mainScreenAnimationController, this.mainScreenAnimation, this.rides})
+      {Key key,
+      this.mainScreenAnimationController,
+      this.mainScreenAnimation,
+      this.rides})
       : super(key: key);
   @override
   _RidesListViewState createState() => _RidesListViewState();
@@ -19,8 +22,6 @@ class RidesListView extends StatefulWidget {
 class _RidesListViewState extends State<RidesListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
-
-  
 
   @override
   void initState() {
@@ -53,18 +54,24 @@ class _RidesListViewState extends State<RidesListView>
             child: Container(
               height: 216,
               width: double.infinity,
-              child: ListView.builder(              
+              child: ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
                 itemCount: widget.rides.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  var count = widget.rides.length > 10 ? 10 : widget.rides.length;
+                  var count =
+                      widget.rides.length > 10 ? 10 : widget.rides.length;
                   var animation = Tween(begin: 0.0, end: 1.0).animate(
-                      CurvedAnimation(
-                          parent: animationController,
-                          curve: Interval((1 / count) * index, 1.0,
-                              curve: Curves.fastOutSlowIn)));
+                    CurvedAnimation(
+                      parent: animationController,
+                      curve: Interval(
+                        (1 / count) * index,
+                        1.0,
+                        curve: Curves.fastOutSlowIn,
+                      ),
+                    ),
+                  );
                   animationController.forward();
 
                   return RidesView(
@@ -81,7 +88,6 @@ class _RidesListViewState extends State<RidesListView>
     );
   }
 }
-
 
 class RidesView extends StatelessWidget {
   final DailyRecordModel mealsListData;
@@ -113,8 +119,7 @@ class RidesView extends StatelessWidget {
                       decoration: BoxDecoration(
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: HexColor("#FFB295")
-                                  .withOpacity(0.6),
+                              color: HexColor("#FFB295").withOpacity(0.6),
                               offset: Offset(1.1, 4.0),
                               blurRadius: 8.0),
                         ],
@@ -180,7 +185,7 @@ class RidesView extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
                                       Text(
-                                        mealsListData.kmCovered.toString(),
+                                        mealsListData.kmCovered.toStringAsFixed(2),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontName,
@@ -196,8 +201,7 @@ class RidesView extends StatelessWidget {
                                         child: Text(
                                           'km',
                                           style: TextStyle(
-                                            fontFamily:
-                                                AppTheme.fontName,
+                                            fontFamily: AppTheme.fontName,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 10,
                                             letterSpacing: 0.2,
@@ -251,7 +255,11 @@ class RidesView extends StatelessWidget {
                     child: SizedBox(
                       width: 80,
                       height: 80,
-                      child: Icon(Icons.directions_bike, size: 40, color: Colors.black38,),
+                      child: Icon(
+                        Icons.directions_bike,
+                        size: 40,
+                        color: Colors.black38,
+                      ),
                     ),
                   )
                 ],

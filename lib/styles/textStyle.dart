@@ -10,6 +10,6 @@ var dateTitle = TextStyle(
 );
 
 var dateSubTitle = TextStyle(
-  fontWeight: FontWeight.w100,
+  fontWeight: FontWeight.bold,
   fontSize: 13,
 );

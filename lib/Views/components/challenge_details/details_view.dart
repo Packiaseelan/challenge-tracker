@@ -409,7 +409,7 @@ class DetailsView extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 6),
                                       child: Text(
-                                        '${mainModel.selectedChallenge.target} km',
+                                        '${mainModel.selectedChallenge.target.toStringAsFixed(2)} km',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontName,
@@ -485,7 +485,7 @@ class DetailsView extends StatelessWidget {
                                           padding:
                                               const EdgeInsets.only(top: 6),
                                           child: Text(
-                                            '$covered km',
+                                            '${covered.toStringAsFixed(2)} km',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontName,
@@ -562,7 +562,7 @@ class DetailsView extends StatelessWidget {
                                           padding:
                                               const EdgeInsets.only(top: 6),
                                           child: Text(
-                                            '$averageCompleted km/day',
+                                            '${averageCompleted.toStringAsFixed(2)} km/day',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontName,

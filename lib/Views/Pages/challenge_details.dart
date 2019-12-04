@@ -25,6 +25,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
   MainModel _model;
   List<DailyRecordModel> rides = [];
   double kms = 0;
+  bool isCompleted = false;
 
   List<Widget> listViews = List<Widget>();
   var scrollController = ScrollController();
@@ -400,6 +401,8 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
             1;
 
     int remaining = duration - completed;
+
+    isCompleted = remaining >= 0;
 
     double res = _model.selectedChallenge.target -
         (kms + _model.selectedChallenge.initial);
