@@ -89,6 +89,7 @@ class MainModel extends Model {
 
   void updateRideRecords(RideModel model) {
     rides.where((r) => r.id == model.id).toList()[0] = model;
+    notifyListeners();
     _dbHelper.updateRide(model.toMap());
   }
 }

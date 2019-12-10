@@ -240,7 +240,9 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Icon(
-                                  Icons.favorite_border,
+                                  daily.isFavourite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
                                   color: AppTheme.primaryColor,
                                 ),
                               ),
@@ -260,7 +262,6 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   }
 
   Widget getFilterBarUI() {
-    print(rides.length.toString() + 'cvfjghkdfjh');
     return Stack(
       children: <Widget>[
         Positioned(
@@ -433,9 +434,8 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   void onSearch() {
     setState(() {
       if (search.length > 0) {
-        rides = _model.rides
-            .where((ride) => ride.rideTo.contains(search))
-            .toList();
+        rides =
+            _model.rides.where((ride) => ride.rideTo.contains(search)).toList();
       } else {
         rides = _model.rides;
       }

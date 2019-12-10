@@ -132,10 +132,6 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     var end = _model.selectedChallenge.endDate;
 
     rides = _model.rides.where((ride) {
-      print(ride.createdDate.day.toString());
-      print('start:' + start.toString());
-      print('end : '+end.toString());
-      print('created:'+ride.createdDate.toString());
       if ((ride.createdDate.isAfter(start) ||
               ride.createdDate.compareTo(start) == 0) &&
           (ride.createdDate.isBefore(end) ||
