@@ -1,5 +1,5 @@
 import 'package:ct/Views/router.dart';
-import 'package:ct/core/models/daily-record.dart';
+import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +15,8 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   ScrollController _scrollController = new ScrollController();
   AnimationController animationController;
   MainModel _model;
-  List<DailyRecordModel> rides = [];
-  String search='';
+  List<RideModel> rides = [];
+  String search = '';
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildListView(Animation animation, DailyRecordModel daily) {
+  Widget _buildListView(Animation animation, RideModel daily) {
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
@@ -233,7 +233,10 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(32.0),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                daily.isFavourite = !daily.isFavourite;
+                                _model.updateRideRecords(daily);
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Icon(

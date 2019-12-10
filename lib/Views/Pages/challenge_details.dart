@@ -3,7 +3,7 @@ import 'package:ct/Views/components/challenge_details/details_view.dart';
 import 'package:ct/Views/components/challenge_details/rides_listview.dart';
 import 'package:ct/Views/components/challenge_details/titleView.dart';
 import 'package:ct/Views/router.dart';
-import 'package:ct/core/models/daily-record.dart';
+import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:ct/styles/textStyle.dart';
@@ -23,7 +23,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
   AnimationController animationController;
 
   MainModel _model;
-  List<DailyRecordModel> rides = [];
+  List<RideModel> rides = [];
   double kms = 0;
   bool isCompleted = false;
 
@@ -132,6 +132,10 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     var end = _model.selectedChallenge.endDate;
 
     rides = _model.dailyRecords.where((ride) {
+      print(ride.createdDate.day.toString());
+      print('start:' + start.toString());
+      print('end : '+end.toString());
+      print('created:'+ride.createdDate.toString());
       if ((ride.createdDate.isAfter(start) ||
               ride.createdDate.compareTo(start) == 0) &&
           (ride.createdDate.isBefore(end) ||
@@ -141,6 +145,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     }).toList();
 
     rides.forEach((f) => kms += f.kmCovered);
+    print(kms);
   }
 
   Future<bool> getData() async {

@@ -1,7 +1,7 @@
 import 'package:ct/Views/components/header.dart';
 import 'package:ct/Views/components/nodata.dart';
 import 'package:ct/Views/router.dart';
-import 'package:ct/core/models/daily-record.dart';
+import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/utils/converter.dart';
 import 'package:ct/utils/ui-helper.dart';
@@ -68,7 +68,7 @@ class _TodayRidesPageState extends State<TodayRidesPage> {
     );
   }
 
-  Widget _buildList(List<DailyRecordModel> model) {
+  Widget _buildList(List<RideModel> model) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
         return InkWell(

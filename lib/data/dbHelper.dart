@@ -1,6 +1,6 @@
 import 'package:ct/core/models/challenge.dart';
-import 'package:ct/core/models/daily-record.dart';
 import 'package:ct/core/models/details.dart';
+import 'package:ct/core/models/ride.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -48,12 +48,13 @@ class DBHelper {
       )
       ''');
     await db.execute('''
-    CREATE TABLE DailyRecords(
+    CREATE TABLE Rides(
       id INTEGER PRIMARY KEY,
       rideTo TEXT,
       kmCovered DOUBLE,
       createdDate INT,
-      modifiedDate INT
+      modifiedDate INT,
+      isFavourite BIT
     )
     ''');
     await db.execute('''
@@ -82,7 +83,7 @@ class DBHelper {
 
   Future<int> insertDailyRecord(Map<String, dynamic> map) async {
     Database db = await this.database;
-    return db.insert('DailyRecords', map);
+    return db.insert('Rides', map);
   }
 
   //Updateoperation: Update object and save into the database.
@@ -102,6 +103,14 @@ class DBHelper {
     return result;
   }
 
+  Future<int> updateRide(Map<String, dynamic> map) async {
+    Database db = await this.database;
+    map['modifiedDate'] = DateTime.now().millisecondsSinceEpoch;
+    var result =
+        db.update('Rides', map, where: 'id = ?', whereArgs: [map['id']]);
+    return result;
+  }
+
   //Fetch operations:
   Future<List<Map<String, dynamic>>> _getDetails() async {
     Database db = await this.database;
@@ -115,7 +124,7 @@ class DBHelper {
 
   Future<List<Map<String, dynamic>>> _getDailyRecords() async {
     Database db = await this.database;
-    return db.query('DailyRecords');
+    return db.query('Rides');
   }
 
   Future<DetailsModel> getDetails() async {
@@ -137,12 +146,12 @@ class DBHelper {
     return c;
   }
 
-  Future<List<DailyRecordModel>> getDailyRecords() async {
+  Future<List<RideModel>> getDailyRecords() async {
     var dailyRecords = _getDailyRecords();
     var data = await dailyRecords;
-    List<DailyRecordModel> daily = List<DailyRecordModel>();
+    List<RideModel> daily = List<RideModel>();
     for (int i = 0; i < data.length; i++) {
-      daily.add(DailyRecordModel.fromMap(data[i]));
+      daily.add(RideModel.fromMap(data[i]));
     }
     return daily;
   }

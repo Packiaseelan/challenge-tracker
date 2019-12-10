@@ -1,4 +1,4 @@
-import 'package:ct/core/models/daily-record.dart';
+import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,8 @@ class AddNewRidesPage extends StatefulWidget {
 
 class _AddNewRidesPageState extends State<AddNewRidesPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  DateTime selectedDate = DateTime.now();
+  static DateTime now = DateTime.now();
+  DateTime selectedDate = DateTime(now.year, now.month, now.day);
   String rideTo;
   double kmCovered;
   MainModel main;
@@ -87,12 +88,13 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
     }
     _formKey.currentState.save();
 
-    var model = DailyRecordModel(
+    var model = RideModel(
       0,
       rideTo,
       kmCovered,
       selectedDate,
       DateTime.now(),
+      false,
     );
     main.saveRideRecords(model);
     Navigator.pop(context);

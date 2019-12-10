@@ -13,8 +13,9 @@ class ChallengePage extends StatefulWidget {
 class _ChallengePageState extends State<ChallengePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   MainModel main;
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
+  static DateTime now = DateTime.now();
+  DateTime startDate = DateTime(now.year, now.month, now.day);
+  DateTime endDate = DateTime(now.year, now.month, now.day);
   int durationInDays = 0;
   double remainingAverage = 0;
   double target = 0;

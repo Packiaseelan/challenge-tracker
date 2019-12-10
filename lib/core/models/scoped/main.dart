@@ -1,6 +1,6 @@
 import 'package:ct/core/models/challenge.dart';
-import 'package:ct/core/models/daily-record.dart';
 import 'package:ct/core/models/details.dart';
+import 'package:ct/core/models/ride.dart';
 import 'package:ct/data/dbHelper.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -10,8 +10,8 @@ class MainModel extends Model {
   DetailsModel detailsModel;
   List<ChallengeModel> challenges = [];
   List<ChallengeModel> activeChallenges = [];
-  List<DailyRecordModel> dailyRecords = [];
-  List<DailyRecordModel> todayRides = [];
+  List<RideModel> dailyRecords = [];
+  List<RideModel> todayRides = [];
   ChallengeModel selectedChallenge;
 
   void init() {
@@ -76,7 +76,7 @@ class MainModel extends Model {
     }
   }
 
-  void saveRideRecords(DailyRecordModel model) {
+  void saveRideRecords(RideModel model) {
     if (model.rideTo.isEmpty) return;
     dailyRecords.add(model);
     notifyListeners();
@@ -85,5 +85,10 @@ class MainModel extends Model {
       _dbHelper.insertDailyRecord(model.toMap());
     else
       _dbHelper.insertDailyRecord(model.toMap());
+  }
+
+  void updateRideRecords(RideModel model) {
+    dailyRecords.where((r) => r.id == model.id).toList()[0] = model;
+    _dbHelper.updateRide(model.toMap());
   }
 }

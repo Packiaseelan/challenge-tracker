@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:ct/core/models/daily-record.dart';
+import 'package:ct/core/models/ride.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 class RidesListView extends StatefulWidget {
   final AnimationController mainScreenAnimationController;
   final Animation mainScreenAnimation;
-  final List<DailyRecordModel> rides;
+  final List<RideModel> rides;
 
   const RidesListView(
       {Key key,
@@ -90,7 +90,7 @@ class _RidesListViewState extends State<RidesListView>
 }
 
 class RidesView extends StatelessWidget {
-  final DailyRecordModel mealsListData;
+  final RideModel mealsListData;
   final AnimationController animationController;
   final Animation animation;
 
