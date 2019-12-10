@@ -15,6 +15,8 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   ScrollController _scrollController = new ScrollController();
   AnimationController animationController;
   MainModel _model;
+  List<DailyRecordModel> rides = [];
+  String search='';
 
   @override
   void initState() {
@@ -39,6 +41,9 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
         _model = model;
+        if (search.length <= 0) {
+          rides = _model.dailyRecords;
+        }
         return Container(
           color: AppTheme.background,
           child: Scaffold(
@@ -92,20 +97,18 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                   body: Container(
                     color: AppTheme.background,
                     child: ListView.builder(
-                      itemCount: _model.dailyRecords.length,
+                      itemCount: rides.length,
                       padding: EdgeInsets.only(top: 8),
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) {
-                        var count = _model.dailyRecords.length > 10
-                            ? 10
-                            : _model.dailyRecords.length;
+                        var count = rides.length > 10 ? 10 : rides.length;
                         var animation = Tween(begin: 0.0, end: 1.0).animate(
                             CurvedAnimation(
                                 parent: animationController,
                                 curve: Interval((1 / count) * index, 1.0,
                                     curve: Curves.fastOutSlowIn)));
                         animationController.forward();
-                        return _buildListView(animation, _model.dailyRecords[index]);
+                        return _buildListView(animation, rides[index]);
                       },
                     ),
                   ),
@@ -170,7 +173,9 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(vertical:15),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 15),
                                               child: Text(
                                                 daily.rideTo,
                                                 textAlign: TextAlign.left,
@@ -252,6 +257,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   }
 
   Widget getFilterBarUI() {
+    print(rides.length.toString() + 'cvfjghkdfjh');
     return Stack(
       children: <Widget>[
         Positioned(
@@ -282,7 +288,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '${_model.dailyRecords.length} rides found',
+                      '${rides.length} rides found',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
@@ -369,7 +375,9 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 4, bottom: 4),
                   child: TextField(
-                    onChanged: (String txt) {},
+                    onChanged: (String txt) {
+                      search = txt;
+                    },
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -404,6 +412,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                 ),
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
+                  onSearch();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -416,6 +425,19 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  void onSearch() {
+    setState(() {
+      if (search.length > 0) {
+        rides = _model.dailyRecords
+            .where((ride) => ride.rideTo.contains(search))
+            .toList();
+      } else {
+        rides = _model.dailyRecords;
+      }
+      print(rides.length);
+    });
   }
 
   Widget getAppBarUI() {

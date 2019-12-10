@@ -36,6 +36,7 @@ class MainModel extends Model {
 
   void _getDailyRecords() async {
     _dbHelper.getDailyRecords().then((daily) {
+      daily.sort((b, a) => a.createdDate.compareTo(b.createdDate));
       dailyRecords = daily;
       notifyListeners();
       _getTodayRides();

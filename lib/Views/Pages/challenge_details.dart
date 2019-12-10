@@ -131,15 +131,14 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     var start = _model.selectedChallenge.startDate;
     var end = _model.selectedChallenge.endDate;
 
-    rides = _model.dailyRecords
-        .where((ride) =>
-            (ride.createdDate.day >= start.day &&
-                ride.createdDate.month >= start.month &&
-                ride.createdDate.year >= start.year) &&
-            (ride.createdDate.day <= end.day &&
-                ride.createdDate.month <= end.month &&
-                ride.createdDate.year <= end.year))
-        .toList();
+    rides = _model.dailyRecords.where((ride) {
+      if ((ride.createdDate.isAfter(start) ||
+              ride.createdDate.compareTo(start) == 0) &&
+          (ride.createdDate.isBefore(end) ||
+              ride.createdDate.compareTo(end) == 0)) return true;
+
+      return false;
+    }).toList();
 
     rides.forEach((f) => kms += f.kmCovered);
   }
