@@ -10,7 +10,7 @@ class MainModel extends Model {
   DetailsModel detailsModel;
   List<ChallengeModel> challenges = [];
   List<ChallengeModel> activeChallenges = [];
-  List<RideModel> dailyRecords = [];
+  List<RideModel> rides = [];
   List<RideModel> todayRides = [];
   ChallengeModel selectedChallenge;
 
@@ -37,16 +37,16 @@ class MainModel extends Model {
   void _getDailyRecords() async {
     _dbHelper.getDailyRecords().then((daily) {
       daily.sort((b, a) => a.createdDate.compareTo(b.createdDate));
-      dailyRecords = daily;
+      rides = daily;
       notifyListeners();
       _getTodayRides();
     });
   }
 
   void _getTodayRides() {
-    if (dailyRecords.length > 0) {
+    if (rides.length > 0) {
       var tdate = DateTime.now();
-      todayRides = dailyRecords
+      todayRides = rides
           .where((ride) =>
               ride.createdDate.day == tdate.day &&
               ride.createdDate.month == tdate.month &&
@@ -78,17 +78,17 @@ class MainModel extends Model {
 
   void saveRideRecords(RideModel model) {
     if (model.rideTo.isEmpty) return;
-    dailyRecords.add(model);
+    rides.add(model);
     notifyListeners();
     _getTodayRides();
     if (model.id == 0 || model.id == null)
-      _dbHelper.insertDailyRecord(model.toMap());
+      _dbHelper.insertRide(model.toMap());
     else
-      _dbHelper.insertDailyRecord(model.toMap());
+      _dbHelper.updateRide(model.toMap());
   }
 
   void updateRideRecords(RideModel model) {
-    dailyRecords.where((r) => r.id == model.id).toList()[0] = model;
+    rides.where((r) => r.id == model.id).toList()[0] = model;
     _dbHelper.updateRide(model.toMap());
   }
 }

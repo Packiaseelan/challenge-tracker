@@ -81,7 +81,7 @@ class DBHelper {
     return db.insert('Challenges', map);
   }
 
-  Future<int> insertDailyRecord(Map<String, dynamic> map) async {
+  Future<int> insertRide(Map<String, dynamic> map) async {
     Database db = await this.database;
     return db.insert('Rides', map);
   }

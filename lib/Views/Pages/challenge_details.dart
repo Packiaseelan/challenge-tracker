@@ -131,7 +131,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     var start = _model.selectedChallenge.startDate;
     var end = _model.selectedChallenge.endDate;
 
-    rides = _model.dailyRecords.where((ride) {
+    rides = _model.rides.where((ride) {
       print(ride.createdDate.day.toString());
       print('start:' + start.toString());
       print('end : '+end.toString());

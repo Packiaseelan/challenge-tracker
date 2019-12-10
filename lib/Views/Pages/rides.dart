@@ -42,7 +42,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
       builder: (BuildContext context, Widget child, MainModel model) {
         _model = model;
         if (search.length <= 0) {
-          rides = _model.dailyRecords;
+          rides = _model.rides;
         }
         return Container(
           color: AppTheme.background,
@@ -433,11 +433,11 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   void onSearch() {
     setState(() {
       if (search.length > 0) {
-        rides = _model.dailyRecords
+        rides = _model.rides
             .where((ride) => ride.rideTo.contains(search))
             .toList();
       } else {
-        rides = _model.dailyRecords;
+        rides = _model.rides;
       }
       print(rides.length);
     });

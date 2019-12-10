@@ -611,7 +611,7 @@ class DetailsView extends StatelessWidget {
 
     if (remaining < 0) remaining = 0;
 
-    var rides = mainModel.dailyRecords
+    var rides = mainModel.rides
         .where((ride) =>
             (ride.createdDate.day >= start.day &&
                 ride.createdDate.month >= start.month &&
