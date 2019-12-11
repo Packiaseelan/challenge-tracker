@@ -1,5 +1,6 @@
 import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/ride.dart';
+import 'package:ct/core/models/ride_filter.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
@@ -292,7 +293,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '${rides.length} rides found',
+                      '${_model.rides.length} rides found',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
@@ -312,10 +313,8 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                     ),
                     onTap: () {
                       FocusScope.of(context).requestFocus(FocusNode());
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => FiltersScreen(), fullscreenDialog: true),
-                      // );
+                      _model.rideFilter = RideFilterModel.reset();
+                      Navigator.pushNamed(context, Router.rideFilter);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8),

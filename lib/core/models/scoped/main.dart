@@ -1,6 +1,7 @@
 import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/details.dart';
 import 'package:ct/core/models/ride.dart';
+import 'package:ct/core/models/ride_filter.dart';
 import 'package:ct/data/dbHelper.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -13,6 +14,7 @@ class MainModel extends Model {
   List<RideModel> rides = [];
   List<RideModel> todayRides = [];
   ChallengeModel selectedChallenge;
+  RideFilterModel rideFilter;
 
   void init() {
     _getDetails();

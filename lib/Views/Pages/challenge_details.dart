@@ -141,7 +141,6 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     }).toList();
 
     rides.forEach((f) => kms += f.kmCovered);
-    print(kms);
   }
 
   Future<bool> getData() async {
