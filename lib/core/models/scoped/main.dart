@@ -16,7 +16,11 @@ class MainModel extends Model {
   ChallengeModel selectedChallenge;
   RideFilterModel rideFilter;
 
+  int currentHomePage;
+
   void init() {
+    currentHomePage = 1;
+    notifyListeners();
     _getDetails();
     _getChallenges();
     _getDailyRecords();
@@ -93,5 +97,10 @@ class MainModel extends Model {
     rides.where((r) => r.id == model.id).toList()[0] = model;
     notifyListeners();
     _dbHelper.updateRide(model.toMap());
+  }
+
+  void onSetHomePage(int index) {
+    currentHomePage = index;
+    notifyListeners();
   }
 }

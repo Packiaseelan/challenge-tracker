@@ -7,7 +7,6 @@ import 'package:ct/Views/Pages/home.dart';
 import 'package:ct/Views/Pages/profile.dart';
 import 'package:ct/Views/Pages/ride_filter.dart';
 import 'package:ct/Views/Pages/rides.dart';
-import 'package:ct/Views/Pages/today-rides.dart';
 import 'package:ct/Views/Pages/welcome.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,6 @@ class Router {
   static const String details = '/details';
   static const String settings = '/settings';
   static const String profile = '/profile';
-  static const String todayRides = '/todayRides';
   static const String challengeDetails = '/challengeDetails';
   static const String addRide = '/addRide';
   static const String rides = '/rides';
@@ -44,9 +42,6 @@ class Router {
 
       case challenge:
         return MaterialPageRoute(builder: (_) => ChallengePage());
-
-      case todayRides:
-        return MaterialPageRoute(builder: (_) => TodayRidesPage());
 
       case profile:
         return MaterialPageRoute(builder: (_) => ProfilePage());

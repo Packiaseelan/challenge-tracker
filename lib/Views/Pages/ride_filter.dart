@@ -1,3 +1,6 @@
+import 'package:ct/Views/components/app_button.dart';
+import 'package:ct/Views/components/sub_title_bar.dart';
+import 'package:ct/core/models/ride_filter.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +31,12 @@ class _RideFilterPageState extends State<RideFilterPage> {
                     children: <Widget>[
                       favFilter(),
                       Divider(height: 1),
+                      _buildTodays(),
+                      Divider(height: 1),
+                      _buildDateFilters(),
+                      Divider(height: 1),
+                      _buildReset(),
+                      Divider(height: 1),
                     ],
                   ),
                 ),
@@ -35,49 +44,15 @@ class _RideFilterPageState extends State<RideFilterPage> {
               Divider(
                 height: 1,
               ),
-              _buildApplyButton(),
+              AppButton(
+                title: 'Apply',
+                onPressed: onApply,
+              ),
             ],
           ),
         ),
       );
     });
-  }
-
-  Widget _buildApplyButton() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 8),
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: AppTheme.primaryColor,
-          borderRadius: BorderRadius.all(Radius.circular(24.0)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.6),
-              blurRadius: 8,
-              offset: Offset(4, 4),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.all(Radius.circular(24.0)),
-            highlightColor: Colors.transparent,
-            onTap: onApply,
-            child: Center(
-              child: Text(
-                "Apply",
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   void onApply() {
@@ -86,59 +61,13 @@ class _RideFilterPageState extends State<RideFilterPage> {
   }
 
   Widget getAppBarUI() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.background,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: Offset(0, 2),
-              blurRadius: 4.0),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, left: 8, right: 8),
-        child: Row(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(32.0),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.close),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  "Filters",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-            )
-          ],
-        ),
-      ),
+    return SubTitleBar(
+      isPopup: true,
+      title: 'Filters',
+      onTap: () {
+        _model.rideFilter = RideFilterModel.reset();
+        Navigator.pop(context);
+      },
     );
   }
 
@@ -167,7 +96,8 @@ class _RideFilterPageState extends State<RideFilterPage> {
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
               onTap: () {
                 setState(() {
-                  _model.rideFilter.isFavourite = !_model.rideFilter.isFavourite;
+                  _model.rideFilter.isFavourite =
+                      !_model.rideFilter.isFavourite;
                 });
               },
               child: Padding(
@@ -187,6 +117,195 @@ class _RideFilterPageState extends State<RideFilterPage> {
                     ),
                     Text(
                       'Show only favourite rides',
+                    ),
+                  ],
+                ),
+              )),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTodays() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Today\'s Rides',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              onTap: () {
+                setState(() {
+                  _model.rideFilter.isToday = !_model.rideFilter.isToday;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      _model.rideFilter.isToday
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      color: _model.rideFilter.isToday
+                          ? AppTheme.primaryColor
+                          : Colors.grey.withOpacity(0.6),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      'Show only today\'s rides',
+                    ),
+                  ],
+                ),
+              )),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildReset() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Reset Filters',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              onTap: () {
+                _model.rideFilter = null;
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Click here to Reset filters',
+                      style: TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDateFilters() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Date Filters',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'From Date',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize:
+                              MediaQuery.of(context).size.width > 360 ? 18 : 16,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      '${DateTime.now().toString()}',
+                      style: TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'To Date',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize:
+                              MediaQuery.of(context).size.width > 360 ? 18 : 16,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      '${DateTime.now().toString()}',
+                      style: TextStyle(
+                        color: AppTheme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),

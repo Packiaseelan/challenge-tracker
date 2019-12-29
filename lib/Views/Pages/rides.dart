@@ -1,3 +1,4 @@
+import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/ride_filter.dart';
@@ -42,9 +43,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
         _model = model;
-        if (search.length <= 0) {
-          rides = _model.rides;
-        }
+        _getRides();
         return Container(
           color: AppTheme.background,
           child: Scaffold(
@@ -55,69 +54,67 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
     );
   }
 
+  void _getRides() {
+    if (search.length <= 0) {
+      rides = _model.rides;
+    }
+    if (_model.rideFilter != null && _model.rideFilter.isSelected) {
+      if (_model.rideFilter.isFavourite) {
+        rides = _model.rides.where((ride) => ride.isFavourite).toList();
+      }
+    }
+  }
+
   Widget _buildBody() {
-    return Stack(
+    return Column(
       children: <Widget>[
-        InkWell(
-          splashColor: Colors.transparent,
-          focusColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          onTap: () {
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: Column(
-            children: <Widget>[
-              getAppBarUI(),
-              Expanded(
-                child: NestedScrollView(
-                  controller: _scrollController,
-                  headerSliverBuilder:
-                      (BuildContext context, bool innerBoxIsScrolled) {
-                    return <Widget>[
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          return Column(
-                            children: <Widget>[
-                              getSearchBarUI(),
-                              //getTimeDateUI(),
-                            ],
-                          );
-                        }, childCount: 1),
-                      ),
-                      SliverPersistentHeader(
-                        pinned: true,
-                        floating: true,
-                        delegate: ContestTabHeader(
-                          getFilterBarUI(),
-                        ),
-                      ),
-                    ];
-                  },
-                  body: Container(
-                    color: AppTheme.background,
-                    child: ListView.builder(
-                      itemCount: rides.length,
-                      padding: EdgeInsets.only(top: 8),
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        var count = rides.length > 10 ? 10 : rides.length;
-                        var animation = Tween(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animationController,
-                                curve: Interval((1 / count) * index, 1.0,
-                                    curve: Curves.fastOutSlowIn)));
-                        animationController.forward();
-                        return _buildListView(animation, rides[index]);
-                      },
-                    ),
+        getAppBarUI(),
+        Expanded(
+          child: NestedScrollView(
+            controller: _scrollController,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    return Column(
+                      children: <Widget>[
+                        getSearchBarUI(),
+                        //getTimeDateUI(),
+                      ],
+                    );
+                  }, childCount: 1),
+                ),
+                SliverPersistentHeader(
+                  pinned: true,
+                  floating: true,
+                  delegate: ContestTabHeader(
+                    getFilterBarUI(),
                   ),
                 ),
+              ];
+            },
+            body: Container(
+              color: AppTheme.background,
+              child: ListView.builder(
+                itemCount: rides.length,
+                padding: EdgeInsets.only(top: 8),
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  var count = rides.length > 10 ? 10 : rides.length;
+                  var animation = Tween(begin: 0.0, end: 1.0).animate(
+                      CurvedAnimation(
+                          parent: animationController,
+                          curve: Interval((1 / count) * index, 1.0,
+                              curve: Curves.fastOutSlowIn)));
+                  animationController.forward();
+                  return _buildListView(animation, rides[index]);
+                },
               ),
-            ],
+            ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -293,7 +290,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '${_model.rides.length} rides found',
+                      '${rides.length} rides found',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
@@ -443,80 +440,12 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   }
 
   Widget getAppBarUI() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.background,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: Offset(0, 2),
-              blurRadius: 8.0),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, left: 8, right: 8),
-        child: Row(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(32.0),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.arrow_back),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  "Explore All Rides",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              width: AppBar().preferredSize.height + 40,
-              height: AppBar().preferredSize.height,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(32.0),
-                      ),
-                      onTap: () {
-                        Navigator.pushNamed(context, Router.addRide);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.add),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+    return SubTitleBar(
+      isPopup: false,
+      title: 'Explore All Rides',
+      onTap: () {
+        Navigator.pushNamed(context, Router.addRide);
+      },
     );
   }
 }

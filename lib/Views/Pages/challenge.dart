@@ -1,7 +1,8 @@
-import 'package:ct/Views/components/header.dart';
+import 'package:ct/Views/components/app_button.dart';
+import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
-import 'package:ct/utils/ui-helper.dart';
+import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -29,47 +30,48 @@ class _ChallengePageState extends State<ChallengePage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       main = model;
       _updateSelectedChallengeDetails();
-      return Scaffold(
-        body: _buildBody(),
+      return Container(
+        color: AppTheme.background,
+        child: Scaffold(
+          backgroundColor: AppTheme.background,
+          body: Column(
+            children: <Widget>[
+              getAppBarUI(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: _buildEditableForm(),
+                ),
+              ),
+              Divider(
+                height: 1,
+              ),
+              AppButton(
+                title: 'Save',
+                onPressed: onSave,
+              ),
+            ],
+          ),
+        ),
       );
     });
   }
 
-  Widget _buildBody() {
-    return Column(
-      children: <Widget>[
-        HeaderView(
-          leftIcon: Icons.arrow_back_ios,
-          onLeftPressed: () => Navigator.of(context).pop(),
-          title: 'Challenge Details',
-        ),
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            height: UIHelper.safeAreaHeight - 100,
-            child: _buildEditableForm(),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildEditableForm() {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        children: <Widget>[
-          _buildTextField('Challenge name', false),
-          _buildStartDatePicker(),
-          _buildEndDatePicker(),
-          _buildTextField('Target', true),
-          _buildTextField('Initial', true),
-          RaisedButton(
-            child: Text('Save'),
-            onPressed: onSave,
-          ),
-          _buildRemainimg(),
-        ],
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _buildTextField('Challenge name', false),
+            _buildStartDatePicker(),
+            _buildEndDatePicker(),
+            _buildTextField('Target', true),
+            _buildTextField('Initial', true),
+            _buildRemainimg(),
+          ],
+        ),
       ),
     );
   }
@@ -273,5 +275,13 @@ class _ChallengePageState extends State<ChallengePage> {
       initial = main.selectedChallenge.initial;
       remainingAverage = (target - initial) / durationInDays.round();
     }
+  }
+
+  Widget getAppBarUI() {
+    return SubTitleBar(
+      isPopup: true,
+      title: 'Challenge Details',
+      onTap: () {},
+    );
   }
 }

@@ -1,8 +1,9 @@
-import 'package:ct/Views/components/header.dart';
+import 'package:ct/Views/components/app_button.dart';
+import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/core/models/details.dart';
 import 'package:ct/core/models/scoped/main.dart';
+import 'package:ct/styles/appTheme.dart';
 import 'package:ct/utils/converter.dart';
-import 'package:ct/utils/ui-helper.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -28,8 +29,27 @@ class _DetailsPageState extends State<DetailsPage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       main = model;
       details = main.detailsModel;
-      return Scaffold(
-        body: _buildBody(),
+      return Container(
+        color: AppTheme.background,
+        child: Scaffold(
+          body: Column(
+            children: <Widget>[
+              getAppBarUI(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: _buildEditableForm(),
+                ),
+              ),
+              Divider(
+                height: 1,
+              ),
+              AppButton(
+                title: 'Save',
+                onPressed: onSave,
+              ),
+            ],
+          ),
+        ),
       );
     });
   }
@@ -59,42 +79,20 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
-  Widget _buildBody() {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          HeaderView(
-            leftIcon: Icons.arrow_back_ios,
-            onLeftPressed: () => Navigator.of(context).pop(),
-            title: 'Fill the details',
-          ),
-          Expanded(
-            child: Container(
-              height: UIHelper.safeAreaHeight - 100,
-              padding: const EdgeInsets.all(20.0),
-              child: _buildEditableForm(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildEditableForm() {
-    return Form(
-      key: _formKey,
-      child: ListView(
-        children: <Widget>[
-          _buildTextField('Firstname', false),
-          _buildTextField('Lastname', false),
-          _buildDatePicker(),
-          _buildTextField('Weight', true),
-          _buildTextField('Height', true),
-          RaisedButton(
-            child: Text('Save'),
-            onPressed: onSave,
-          ),
-        ],
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            _buildTextField('Firstname', false),
+            _buildTextField('Lastname', false),
+            _buildDatePicker(),
+            _buildTextField('Weight', true),
+            _buildTextField('Height', true),
+          ],
+        ),
       ),
     );
   }
@@ -175,5 +173,13 @@ class _DetailsPageState extends State<DetailsPage> {
         height = double.parse(value);
         break;
     }
+  }
+
+  Widget getAppBarUI() {
+    return SubTitleBar(
+      isPopup: true,
+      title: 'Fill the details',
+      onTap: () {},
+    );
   }
 }

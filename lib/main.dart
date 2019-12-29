@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       model: mainModel,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Challenge Tracker',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

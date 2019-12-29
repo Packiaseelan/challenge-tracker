@@ -1,9 +1,9 @@
-import 'package:ct/Views/components/header.dart';
 import 'package:ct/Views/components/nodata.dart';
+import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
-import 'package:ct/utils/ui-helper.dart';
+import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -27,21 +27,14 @@ class _ChallengesPageState extends State<ChallengesPage> {
   Widget _buildBody() {
     return Column(
       children: <Widget>[
-        HeaderView(
-          title: 'My Challenges',
-          leftIcon: Icons.arrow_back_ios,
-          onLeftPressed: () => Navigator.of(context).pop(),
-          rightIcon: Icons.add,
-          onRightPressed: () {
-            main.selectedChallenge = null;
-            Navigator.pushNamed(context, Router.challenge);
-          },
-        ),
-        Container(
-          height: UIHelper.safeAreaHeight * 0.9,
-          child: main.challenges.length > 0
-              ? _buildList(main.challenges)
-              : _noData(),
+        getAppBarUI(),
+        Expanded(
+          child: Container(
+            color: AppTheme.background,
+            child: main.challenges.length > 0
+                ? _buildList(main.challenges)
+                : _noData(),
+          ),
         ),
       ],
     );
@@ -61,7 +54,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                     child: Container(
                       height: 55,
                       width: 55,
-                      color: Theme.of(context).primaryColor,
+                      color: AppTheme.primaryColor
                       //child: _getAvatar(model[index].path),
                     ),
                   ), //
@@ -92,5 +85,16 @@ class _ChallengesPageState extends State<ChallengesPage> {
   void _onItemTapped(ChallengeModel model, int index) {
     main.selectedChallenge = model;
     Navigator.pushNamed(context, Router.challengeDetails);
+  }
+
+  Widget getAppBarUI() {
+    return SubTitleBar(
+      isPopup: false,
+      title: 'Challenges',
+      onTap: () {
+        main.selectedChallenge = null;
+        Navigator.pushNamed(context, Router.challenge);
+      },
+    );
   }
 }

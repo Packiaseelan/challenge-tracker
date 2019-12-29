@@ -1,8 +1,10 @@
-import 'package:ct/Views/components/app_background.dart';
-import 'package:ct/Views/components/drawer.dart';
-import 'package:ct/Views/components/header.dart';
-import 'package:ct/utils/app-colors.dart';
+import 'package:ct/Views/Pages/challenges.dart';
+import 'package:ct/Views/Pages/rides.dart';
+import 'package:ct/Views/components/tab_bar/fancy_tab_bar.dart';
+import 'package:ct/core/models/scoped/main.dart';
+import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import '../components/alert.dart';
 
@@ -13,16 +15,58 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  MainModel _model;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-        key: _scaffoldKey,
-        drawer: SideDrawer(),
-        body: _buildBody(),
-      ),
-    );
+    return ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
+      _model = model;
+      return WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          key: _scaffoldKey,
+          body: _getBody(),
+          bottomNavigationBar: FancyTabBar(),
+          appBar: AppBar(
+            backgroundColor: AppTheme.primaryColor,
+            elevation: 20,
+            actions: <Widget>[
+              Center(
+                  child: Text(
+                '${_model.detailsModel.firstName} ${_model.detailsModel.lastName}',
+              )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    Icons.person,
+                    color: AppTheme.primaryColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _getBody() {
+    switch (_model.currentHomePage) {
+      case 0:
+        return ChallengesPage();
+      case 1:
+        return RidesPage();
+      case 2:
+      default:
+        return Container(
+          color: AppTheme.background,
+          child: Center(
+            child: Text('Page under construction'),
+          ),
+        );
+    }
   }
 
   Future<bool> _onWillPop() {
@@ -36,33 +80,10 @@ class _HomePageState extends State<HomePage> {
         ),
         title: 'Are you sure?',
         message: 'Do you  want to exit an App?',
-        acceptText: 'Exit',
-        discardText: 'Cancel',
+        acceptText: 'Yes',
+        discardText: 'No',
         onAcceptPressed: () => Navigator.of(context).pop(true),
         onDiscardPressed: () => Navigator.of(context).pop(false),
-      ),
-    );
-  }
-
-  Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        AppBackground(
-          firstColor: firstCircleColor,
-          secondColor: secondCircleColor,
-          thirdColor: thirdCircleColor,
-        ),
-        _buildHeader(),
-      ],
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      child: HeaderView(
-        leftIcon: Icons.menu,
-        onLeftPressed: () => _scaffoldKey.currentState.openDrawer(),
-        title: 'Track Your Challenges',
       ),
     );
   }

@@ -7,6 +7,7 @@ class TitleView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
   final Function onPressed;
+  final Widget option;
 
   const TitleView({
     Key key,
@@ -15,6 +16,7 @@ class TitleView extends StatelessWidget {
     this.animationController,
     this.animation,
     this.onPressed,
+    this.option
   }) : super(key: key);
 
   @override
