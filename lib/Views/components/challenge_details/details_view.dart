@@ -12,12 +12,12 @@ class DetailsView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
 
-  MainModel mainModel;
-  double remainingAverage;
-  int remaining;
-  double covered;
-  double averageCompleted;
-  double percentage;
+  MainModel _mainModel;
+  double _remainingAverage;
+  int _remaining;
+  double _covered;
+  double _averageCompleted;
+  double _percentage;
 
   DetailsView({Key key, this.animationController, this.animation})
       : super(key: key);
@@ -26,7 +26,7 @@ class DetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
-        mainModel = model;
+        _mainModel = model;
         calculation();
         return AnimatedBuilder(
           animation: animationController,
@@ -118,7 +118,7 @@ class DetailsView extends StatelessWidget {
                                                               left: 4,
                                                               bottom: 3),
                                                       child: Text(
-                                                        '${(remaining)}', //* animation.value).toInt()}',
+                                                        '${(_remaining)}', //* animation.value).toInt()}',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -214,7 +214,7 @@ class DetailsView extends StatelessWidget {
                                                               left: 4,
                                                               bottom: 3),
                                                       child: Text(
-                                                        '${(remainingAverage)}',
+                                                        '${(_remainingAverage)}',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -288,7 +288,7 @@ class DetailsView extends StatelessWidget {
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
                                               Text(
-                                                '${(percentage)}%',
+                                                '${(_percentage)}%',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontFamily: AppTheme.fontName,
@@ -324,8 +324,8 @@ class DetailsView extends StatelessWidget {
                                               HexColor("#8A98E8"),
                                               HexColor("#8A98E8")
                                             ],
-                                            angle: (3.6 * percentage) +
-                                                (360 - (3.6 * percentage)) *
+                                            angle: (3.6 * _percentage) +
+                                                (360 - (3.6 * _percentage)) *
                                                     (1.0 - animation.value),
                                           ),
                                           child: SizedBox(
@@ -409,7 +409,7 @@ class DetailsView extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 6),
                                       child: Text(
-                                        '${mainModel.selectedChallenge.target.toStringAsFixed(2)} km',
+                                        '${_mainModel.selectedChallenge.target.toStringAsFixed(2)} km',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontFamily: AppTheme.fontName,
@@ -485,7 +485,7 @@ class DetailsView extends StatelessWidget {
                                           padding:
                                               const EdgeInsets.only(top: 6),
                                           child: Text(
-                                            '${covered.toStringAsFixed(2)} km',
+                                            '${_covered.toStringAsFixed(2)} km',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontName,
@@ -562,7 +562,7 @@ class DetailsView extends StatelessWidget {
                                           padding:
                                               const EdgeInsets.only(top: 6),
                                           child: Text(
-                                            '${averageCompleted.toStringAsFixed(2)} km/day',
+                                            '${_averageCompleted.toStringAsFixed(2)} km/day',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: AppTheme.fontName,
@@ -594,24 +594,24 @@ class DetailsView extends StatelessWidget {
   }
 
   void calculation() {
-    var start = mainModel.selectedChallenge.startDate;
-    var end = mainModel.selectedChallenge.endDate;
-    covered = 0;
+    var start = _mainModel.selectedChallenge.startDate;
+    var end = _mainModel.selectedChallenge.endDate;
+    _covered = 0;
 
-    int duration = mainModel.selectedChallenge.endDate
-            .difference(mainModel.selectedChallenge.startDate)
+    int duration = _mainModel.selectedChallenge.endDate
+            .difference(_mainModel.selectedChallenge.startDate)
             .inDays +
         1;
     int completed = (DateTime.now()
-            .difference(mainModel.selectedChallenge.startDate)
+            .difference(_mainModel.selectedChallenge.startDate)
             .inDays) +
         1;
 
-    remaining = duration - completed;
+    _remaining = duration - completed;
 
-    if (remaining < 0) remaining = 0;
+    if (_remaining < 0) _remaining = 0;
 
-    var rides = mainModel.rides
+    var rides = _mainModel.rides
         .where((ride) =>
             (ride.createdDate.day >= start.day &&
                 ride.createdDate.month >= start.month &&
@@ -621,20 +621,20 @@ class DetailsView extends StatelessWidget {
                 ride.createdDate.year <= end.year))
         .toList();
 
-    rides.forEach((f) => covered += f.kmCovered);
+    rides.forEach((f) => _covered += f.kmCovered);
 
-    covered = covered + mainModel.selectedChallenge.initial;
+    _covered = _covered + _mainModel.selectedChallenge.initial;
 
-    remainingAverage = dp(
-        ((mainModel.selectedChallenge.target -
-                (mainModel.selectedChallenge.initial + covered)) /
+    _remainingAverage = dp(
+        ((_mainModel.selectedChallenge.target -
+                (_mainModel.selectedChallenge.initial + _covered)) /
             (duration - completed)),
         2);
 
-    if (remainingAverage < 0) remainingAverage = 0;
+    if (_remainingAverage < 0) _remainingAverage = 0;
 
-    averageCompleted = dp((covered / completed), 2);
-    percentage = dp(((covered / mainModel.selectedChallenge.target) * 100), 2);
+    _averageCompleted = dp((_covered / completed), 2);
+    _percentage = dp(((_covered / _mainModel.selectedChallenge.target) * 100), 2);
   }
 
   double dp(double val, int places) {

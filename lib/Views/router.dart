@@ -8,6 +8,7 @@ import 'package:ct/Views/Pages/profile.dart';
 import 'package:ct/Views/Pages/ride_filter.dart';
 import 'package:ct/Views/Pages/rides.dart';
 import 'package:ct/Views/Pages/welcome.dart';
+import 'package:ct/Views/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class Router {
@@ -17,6 +18,7 @@ class Router {
   static const String challenge = '/challenge';
   static const String challenges = '/challenges';
   static const String home = '/home';
+  static const String welcome = '/welcome';
   static const String details = '/details';
   static const String settings = '/settings';
   static const String profile = '/profile';
@@ -32,6 +34,9 @@ class Router {
         return MaterialPageRoute(builder: (_) => HomePage());
 
       case '/':
+        return MaterialPageRoute(builder: (_) => SplashScreen());
+
+      case welcome:
         return MaterialPageRoute(builder: (_) => WelcomePage());
 
       case details:
@@ -55,13 +60,13 @@ class Router {
           fullscreenDialog: true,
         );
 
-        case rideFilter:
+      case rideFilter:
         return MaterialPageRoute(
           builder: (_) => RideFilterPage(),
           fullscreenDialog: true,
         );
 
-        case rides:
+      case rides:
         return MaterialPageRoute(builder: (_) => RidesPage());
 
       default:

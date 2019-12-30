@@ -76,8 +76,13 @@ class MainModel extends Model {
       challenges.add(model);
       notifyListeners();
       _dbHelper.insertChallenges(model.toMap());
-    } else {
-      challenges.where((d) => d.id == model.id).toList()[0] = model;
+    } 
+    else {
+      var temp = challenges.where((d) => d.id == model.id).toList();
+      temp[0] = model;
+      challenges = temp;
+      selectedChallenge = model;
+      notifyListeners();
       _dbHelper.updateChallenges(model.toMap());
     }
   }

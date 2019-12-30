@@ -67,7 +67,7 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Widget _buildDetails() {
     Future.delayed(const Duration(milliseconds: 3000), () {
-      if (Router.currentPage == Router.initialRoute) {
+      if (Router.currentPage == Router.welcome) {
         Navigator.pushReplacementNamed(context, Router.home);
       }
     });

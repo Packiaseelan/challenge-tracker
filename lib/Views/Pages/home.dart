@@ -1,6 +1,7 @@
 import 'package:ct/Views/Pages/challenges.dart';
 import 'package:ct/Views/Pages/rides.dart';
 import 'package:ct/Views/components/tab_bar/fancy_tab_bar.dart';
+import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +38,16 @@ class _HomePageState extends State<HomePage> {
               )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person,
-                    color: AppTheme.primaryColor,
+                child: InkWell(
+                  onTap: (){
+                    Navigator.pushNamed(context, Router.profile);
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.person,
+                      color: AppTheme.primaryColor,
+                    ),
                   ),
                 ),
               ),

@@ -42,6 +42,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
 
   Widget _buildList(List<ChallengeModel> model) {
     return ListView.builder(
+      physics: BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
             onTap: () {

@@ -98,6 +98,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
             body: Container(
               color: AppTheme.background,
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemCount: rides.length,
                 padding: EdgeInsets.only(top: 8),
                 scrollDirection: Axis.vertical,

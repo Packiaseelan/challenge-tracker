@@ -67,6 +67,8 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     super.initState();
   }
 
+
+
   void addAllListData() {
     var count = 9;
 
@@ -75,8 +77,10 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
     listViews.add(
       TitleView(
         titleTxt: _model.selectedChallenge.challengeName,
-        subTxt: 'Options',
-        onPressed: () {},
+        subTxt: 'Edit',
+        onPressed: () {
+          Navigator.pushNamed(context, Router.challenge);
+        },
         animation: Tween(begin: 0.0, end: 1.0).animate(
           CurvedAnimation(
             parent: animationController,

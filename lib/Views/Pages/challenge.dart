@@ -197,6 +197,9 @@ class _ChallengePageState extends State<ChallengePage> {
           else
             return null;
         },
+        onSaved: (txt){
+          textChanged(txt, text);
+        },
         initialValue: _getInitialValue(text),
         keyboardType: isNumeric
             ? TextInputType.numberWithOptions(decimal: true)
