@@ -1,6 +1,7 @@
 import 'package:ct/Views/Pages/add_ride.dart';
 import 'package:ct/Views/Pages/challenge.dart';
 import 'package:ct/Views/Pages/challenge_details.dart';
+import 'package:ct/Views/Pages/challenge_filter.dart';
 import 'package:ct/Views/Pages/challenges.dart';
 import 'package:ct/Views/Pages/details.dart';
 import 'package:ct/Views/Pages/home.dart';
@@ -26,6 +27,7 @@ class Router {
   static const String addRide = '/addRide';
   static const String rides = '/rides';
   static const String rideFilter = '/rideFilter';
+  static const String challengeFilter = '/challengeFilter';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     currentPage = settings.name;
@@ -63,6 +65,12 @@ class Router {
       case rideFilter:
         return MaterialPageRoute(
           builder: (_) => RideFilterPage(),
+          fullscreenDialog: true,
+        );
+
+        case challengeFilter:
+        return MaterialPageRoute(
+          builder: (_) => ChallengeFilterPage(),
           fullscreenDialog: true,
         );
 

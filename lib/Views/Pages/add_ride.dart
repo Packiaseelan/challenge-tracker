@@ -31,9 +31,7 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
               children: <Widget>[
                 getAppBarUI(),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: _buildForm(),
-                  ),
+                  child: _buildForm(),
                 ),
                 Divider(
                   height: 1,
@@ -73,7 +71,8 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
       padding: EdgeInsets.all(10),
       child: Form(
         key: _formKey,
-        child: Column(
+        child: ListView(
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             _buildTextField('Ride to', false),
             _buildTextField('Km covered', true),

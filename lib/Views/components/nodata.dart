@@ -16,6 +16,7 @@ class NoData extends StatelessWidget {
             Icon(
               icon,
               color: Colors.grey,
+              size: 100,
             ),
             SizedBox(
               height: 10,

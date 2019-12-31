@@ -1,10 +1,10 @@
 import 'dart:math';
 
+import 'package:ct/Views/animation/background/animated.dart';
+import 'package:ct/Views/animation/components/animated-wave.dart';
 import 'package:ct/Views/components/build-text.dart';
 import 'package:ct/Views/components/welcome.dart';
 import 'package:ct/Views/router.dart';
-import 'package:ct/animation/background/animated.dart';
-import 'package:ct/animation/components/animated-wave.dart';
 import 'package:ct/core/models/details.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/utils/greeting.dart';

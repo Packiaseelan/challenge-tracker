@@ -1,6 +1,5 @@
 import 'dart:math';
-
-import 'package:ct/animation/controlled-animaation.dart';
+import 'package:ct/Views/animation/controlled-animaation.dart';
 import 'package:ct/core/enums/play-back.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-#Tue Dec 31 10:29:53 IST 2019
+#Tue Dec 31 20:45:26 IST 2019
 base.0=/Users/packiaseelan/Downloads/samoke/challenge-tracker/build/app/intermediates/dex/release/mergeDexRelease/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

@@ -1,9 +1,9 @@
 import 'dart:math';
-
-import 'package:ct/animation/animation-progress.dart';
-import 'package:ct/animation/multi-track-tween.dart';
-import 'package:ct/animation/rendering.dart';
 import 'package:flutter/material.dart';
+
+import '../animation-progress.dart';
+import '../multi-track-tween.dart';
+import '../rendering.dart';
 
 class Particles extends StatefulWidget {
   final int numberOfParticles;

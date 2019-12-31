@@ -1,7 +1,8 @@
-import 'package:ct/animation/controlled-animaation.dart';
-import 'package:ct/animation/multi-track-tween.dart';
 import 'package:ct/core/enums/play-back.dart';
 import 'package:flutter/material.dart';
+
+import '../controlled-animaation.dart';
+import '../multi-track-tween.dart';
 
 class AnimatedBackground extends StatelessWidget {
   @override

@@ -88,6 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Column(
             children: <Widget>[
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Container(
                     height: MediaQuery.of(context).size.width / 2,
@@ -150,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.grey.withOpacity(0.2),
           ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
+            padding: EdgeInsets.symmetric(vertical: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
@@ -158,16 +159,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text(
                     count.toString(),
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
+                SizedBox(height: 5,),
                 Text(
                   title,
                   style: TextStyle(
                       color: AppTheme.primaryColor.withOpacity(0.8),
-                      fontSize: 12),
+                      fontSize: 11),
                 ),
               ],
             ),

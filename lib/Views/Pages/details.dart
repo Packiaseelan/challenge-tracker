@@ -36,9 +36,7 @@ class _DetailsPageState extends State<DetailsPage> {
             children: <Widget>[
               getAppBarUI(),
               Expanded(
-                child: SingleChildScrollView(
-                  child: _buildEditableForm(),
-                ),
+                child: _buildEditableForm(),
               ),
               Divider(
                 height: 1,
@@ -84,7 +82,8 @@ class _DetailsPageState extends State<DetailsPage> {
       padding: EdgeInsets.all(10),
       child: Form(
         key: _formKey,
-        child: Column(
+        child: ListView(
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             _buildTextField('Firstname', false),
             _buildTextField('Lastname', false),

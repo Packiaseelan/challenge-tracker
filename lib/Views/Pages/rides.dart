@@ -1,3 +1,5 @@
+import 'package:ct/Views/components/context_tab_header.dart';
+import 'package:ct/Views/components/nodata.dart';
 import 'package:ct/Views/components/rides_view.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
@@ -47,6 +49,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
         return Container(
           color: AppTheme.background,
           child: Scaffold(
+            backgroundColor: AppTheme.background,
             body: _buildBody(),
           ),
         );
@@ -80,6 +83,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
         getAppBarUI(),
         Expanded(
           child: NestedScrollView(
+            physics: BouncingScrollPhysics(),
             controller: _scrollController,
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
@@ -106,22 +110,32 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
             },
             body: Container(
               color: AppTheme.background,
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: rides.length,
-                padding: EdgeInsets.only(top: 8),
-                itemBuilder: (context, index) {
-                  animationController.forward();
-                  return RideView(
-                      animationController: animationController,
-                      animation: _calculateAnimation(index),
-                      ride: rides[index]);
-                },
-              ),
+              child: rides.length == 0
+                  ? _nodata()
+                  : ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: rides.length,
+                      padding: EdgeInsets.only(top: 8),
+                      itemBuilder: (context, index) {
+                        animationController.forward();
+                        return RideView(
+                            animationController: animationController,
+                            animation: _calculateAnimation(index),
+                            ride: rides[index]);
+                      },
+                    ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _nodata() {
+    return NoData(
+      icon: Icons.directions_bike,
+      description: 'Click on the + icon to add new ride.',
+      message: 'No rides available.',
     );
   }
 
@@ -313,7 +327,6 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
       } else {
         rides = _model.rides;
       }
-      print(rides.length);
     });
   }
 
@@ -325,28 +338,5 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
         Navigator.pushNamed(context, Router.addRide);
       },
     );
-  }
-}
-
-class ContestTabHeader extends SliverPersistentHeaderDelegate {
-  final Widget searchUI;
-  ContestTabHeader(
-    this.searchUI,
-  );
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return searchUI;
-  }
-
-  @override
-  double get maxExtent => 52.0;
-
-  @override
-  double get minExtent => 52.0;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }

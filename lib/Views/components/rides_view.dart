@@ -154,6 +154,28 @@ class _RideViewState extends State<RideView> {
                                   ),
                                 ),
                               ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(32.0),
+                                  ),
+                                  onTap: () {
+                                    model.deleteRide(widget.ride);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.delete_outline,
+                                      color: AppTheme.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             )
                           ],
                         ),

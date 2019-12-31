@@ -112,6 +112,19 @@ class DBHelper {
     return result;
   }
 
+  //Delete operation: Delete object from the database.
+  Future<int> deleteRides(int id) async {
+    Database db = await this.database;
+    var result = db.rawDelete('DELETE FROM Rides WHERE id = $id');
+    return result;
+  }
+
+  Future<int> deleteChallenges(int id) async {
+    Database db = await this.database;
+    var result = db.rawDelete('DELETE FROM Challenges WHERE id = $id');
+    return result;
+  }
+
   //Fetch operations:
   Future<List<Map<String, dynamic>>> _getDetails() async {
     Database db = await this.database;

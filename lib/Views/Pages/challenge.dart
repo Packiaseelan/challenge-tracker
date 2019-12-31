@@ -38,9 +38,7 @@ class _ChallengePageState extends State<ChallengePage> {
             children: <Widget>[
               getAppBarUI(),
               Expanded(
-                child: SingleChildScrollView(
-                  child: _buildEditableForm(),
-                ),
+                child: _buildEditableForm(),
               ),
               Divider(
                 height: 1,
@@ -61,8 +59,8 @@ class _ChallengePageState extends State<ChallengePage> {
       padding: EdgeInsets.all(10),
       child: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             _buildTextField('Challenge name', false),
             _buildStartDatePicker(),
@@ -197,7 +195,7 @@ class _ChallengePageState extends State<ChallengePage> {
           else
             return null;
         },
-        onSaved: (txt){
+        onSaved: (txt) {
           textChanged(txt, text);
         },
         initialValue: _getInitialValue(text),
@@ -219,16 +217,8 @@ class _ChallengePageState extends State<ChallengePage> {
     }
     _formKey.currentState.save();
     int id = main.selectedChallenge == null ? 0 : main.selectedChallenge.id;
-    var model = ChallengeModel(
-      id,
-      challengeName,
-      DateTime.now(),
-      startDate,
-      endDate,
-      target,
-      initial,
-      false
-    );
+    var model = ChallengeModel(id, challengeName, DateTime.now(), startDate,
+        endDate, target, initial, false);
 
     main.saveChallenge(model);
     Navigator.pop(context);

@@ -1,11 +1,7 @@
-import 'dart:math';
-
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
-
 import 'dart:math' as math;
-
 import 'package:scoped_model/scoped_model.dart';
 
 class DetailsView extends StatelessWidget {
@@ -601,16 +597,10 @@ class DetailsView extends StatelessWidget {
     var end = _mainModel.selectedChallenge.endDate;
     _covered = 0;
 
-    int duration = _mainModel.selectedChallenge.endDate
-            .difference(_mainModel.selectedChallenge.startDate)
-            .inDays +
-        1;
+    int duration = end.difference(start).inDays + 1;
     int completed = (start.isAfter(DateTime.now()))
         ? 0
-        : (DateTime.now()
-                .difference(_mainModel.selectedChallenge.startDate)
-                .inDays) +
-            1;
+        : (DateTime.now().difference(start).inDays) + 1;
 
     _remainingDays = duration - completed;
 
@@ -657,7 +647,7 @@ class DetailsView extends StatelessWidget {
   }
 
   double dp(double val, int places) {
-    double mod = pow(10.0, places);
+    double mod = math.pow(10.0, places);
     return ((val * mod).round().toDouble() / mod);
   }
 }

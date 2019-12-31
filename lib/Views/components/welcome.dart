@@ -1,7 +1,7 @@
+import 'package:ct/Views/animation/background/animated.dart';
+import 'package:ct/Views/animation/components/particles.dart';
 import 'package:ct/Views/components/build-text.dart';
 import 'package:ct/Views/router.dart';
-import 'package:ct/animation/background/animated.dart';
-import 'package:ct/animation/components/particles.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeView extends StatelessWidget {

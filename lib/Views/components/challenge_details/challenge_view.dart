@@ -117,7 +117,29 @@ class _ChallengeViewState extends State<ChallengeView> {
                                 ),
                               ),
                             ),
-                          )
+                          ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(32.0),
+                                  ),
+                                  onTap: () {
+                                    model.deleteChallenge(widget.challenge);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.delete_outline,
+                                      color: AppTheme.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
                         ],
                       ),
                     ),

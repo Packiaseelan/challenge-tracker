@@ -1,4 +1,5 @@
 import 'package:ct/core/models/challenge.dart';
+import 'package:ct/core/models/challenge_filter.dart';
 import 'package:ct/core/models/details.dart';
 import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/ride_filter.dart';
@@ -15,12 +16,14 @@ class MainModel extends Model {
   List<RideModel> todayRides = [];
   ChallengeModel selectedChallenge;
   RideFilterModel rideFilter;
+  ChallengeFilterModel challengeFilter;
 
   int currentHomePage;
 
   void init() {
     currentHomePage = 1;
     rideFilter = RideFilterModel.reset();
+    challengeFilter = ChallengeFilterModel.reset();
     notifyListeners();
     _getDetails();
     _getChallenges();
@@ -102,6 +105,18 @@ class MainModel extends Model {
     rides.where((r) => r.id == model.id).toList()[0] = model;
     notifyListeners();
     _dbHelper.updateRide(model.toMap());
+  }
+
+  void deleteRide(RideModel model){
+    rides.remove(model);
+    notifyListeners();
+    _dbHelper.deleteRides(model.id);
+  }
+
+  void deleteChallenge(ChallengeModel model){
+    challenges.remove(model);
+    notifyListeners();
+    _dbHelper.deleteChallenges(model.id);
   }
 
   void updateChallenge(ChallengeModel model) {

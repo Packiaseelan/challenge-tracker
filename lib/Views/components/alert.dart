@@ -28,7 +28,7 @@ class BeautifulAlertDialog extends StatelessWidget {
           padding: EdgeInsets.only(right: 16.0),
           height: 150,
           decoration: BoxDecoration(
-            color: Colors.red[200],
+            color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(75),
               bottomLeft: Radius.circular(75),
