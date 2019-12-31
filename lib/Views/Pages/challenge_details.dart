@@ -186,6 +186,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
           return SizedBox();
         } else {
           return ListView.builder(
+            physics: BouncingScrollPhysics(),
             controller: scrollController,
             padding: EdgeInsets.only(
               top: AppBar().preferredSize.height +

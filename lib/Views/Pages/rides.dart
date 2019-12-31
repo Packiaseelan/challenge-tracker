@@ -1,11 +1,10 @@
+import 'package:ct/Views/components/rides_view.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/ride.dart';
-import 'package:ct/core/models/ride_filter.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class RidesPage extends StatefulWidget {
@@ -19,6 +18,7 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
   MainModel _model;
   List<RideModel> rides = [];
   String search = '';
+  int rideCount = 0;
 
   @override
   void initState() {
@@ -62,6 +62,15 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
       if (_model.rideFilter.isFavourite) {
         rides = _model.rides.where((ride) => ride.isFavourite).toList();
       }
+      if (_model.rideFilter.isToday) {
+        var tdate = DateTime.now();
+        rides = rides
+            .where((ride) =>
+                ride.createdDate.day == tdate.day &&
+                ride.createdDate.month == tdate.month &&
+                ride.createdDate.year == tdate.year)
+            .toList();
+      }
     }
   }
 
@@ -101,16 +110,12 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                 physics: BouncingScrollPhysics(),
                 itemCount: rides.length,
                 padding: EdgeInsets.only(top: 8),
-                scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  var count = rides.length > 10 ? 10 : rides.length;
-                  var animation = Tween(begin: 0.0, end: 1.0).animate(
-                      CurvedAnimation(
-                          parent: animationController,
-                          curve: Interval((1 / count) * index, 1.0,
-                              curve: Curves.fastOutSlowIn)));
                   animationController.forward();
-                  return _buildListView(animation, rides[index]);
+                  return RideView(
+                      animationController: animationController,
+                      animation: _calculateAnimation(index),
+                      ride: rides[index]);
                 },
               ),
             ),
@@ -120,143 +125,17 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildListView(Animation animation, RideModel daily) {
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (BuildContext context, Widget child) {
-        return FadeTransition(
-          opacity: animation,
-          child: new Transform(
-            transform: new Matrix4.translationValues(
-                0.0, 50 * (1.0 - animation.value), 0.0),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 8, bottom: 16),
-              child: InkWell(
-                splashColor: Colors.transparent,
-                onTap: () {
-                  //callback();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        offset: Offset(4, 4),
-                        blurRadius: 16,
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                    child: Stack(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Container(
-                              color: AppTheme.background,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 16, top: 8, bottom: 8),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 15),
-                                              child: Text(
-                                                daily.rideTo,
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 22,
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: <Widget>[
-                                                Text(
-                                                  "${DateFormat("dd, MMM, yyyy").format(daily.createdDate)}",
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.8)),
-                                                ),
-                                                SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    "${daily.kmCovered.toStringAsFixed(2)} km",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: Colors.black
-                                                            .withOpacity(0.8)),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(32.0),
-                              ),
-                              onTap: () {
-                                daily.isFavourite = !daily.isFavourite;
-                                _model.updateRideRecords(daily);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  daily.isFavourite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  color: AppTheme.primaryColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
+  Animation<double> _calculateAnimation(int index) {
+    var count = rides.length > 10 ? 10 : rides.length;
+    return Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(
+          (1 / count) * index,
+          1.0,
+          curve: Curves.fastOutSlowIn,
+        ),
+      ),
     );
   }
 
@@ -310,8 +189,6 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                       Radius.circular(4.0),
                     ),
                     onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      _model.rideFilter = RideFilterModel.reset();
                       Navigator.pushNamed(context, Router.rideFilter);
                     },
                     child: Padding(

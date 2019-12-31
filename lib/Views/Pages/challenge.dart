@@ -227,6 +227,7 @@ class _ChallengePageState extends State<ChallengePage> {
       endDate,
       target,
       initial,
+      false
     );
 
     main.saveChallenge(model);

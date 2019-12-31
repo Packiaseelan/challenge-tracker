@@ -20,6 +20,7 @@ class MainModel extends Model {
 
   void init() {
     currentHomePage = 1;
+    rideFilter = RideFilterModel.reset();
     notifyListeners();
     _getDetails();
     _getChallenges();
@@ -76,8 +77,7 @@ class MainModel extends Model {
       challenges.add(model);
       notifyListeners();
       _dbHelper.insertChallenges(model.toMap());
-    } 
-    else {
+    } else {
       var temp = challenges.where((d) => d.id == model.id).toList();
       temp[0] = model;
       challenges = temp;
@@ -102,6 +102,12 @@ class MainModel extends Model {
     rides.where((r) => r.id == model.id).toList()[0] = model;
     notifyListeners();
     _dbHelper.updateRide(model.toMap());
+  }
+
+  void updateChallenge(ChallengeModel model) {
+    challenges.where((c) => c.id == model.id).toList()[0] = model;
+    notifyListeners();
+    _dbHelper.updateChallenges(model.toMap());
   }
 
   void onSetHomePage(int index) {

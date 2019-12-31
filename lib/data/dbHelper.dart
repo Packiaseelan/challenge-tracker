@@ -44,7 +44,8 @@ class DBHelper {
         startDate INT,
         endDate INT,
         target DOUBLE,
-        initial DOUBLE
+        initial DOUBLE,
+        isFavourite BIT
       )
       ''');
     await db.execute('''

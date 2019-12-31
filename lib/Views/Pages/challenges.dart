@@ -1,3 +1,4 @@
+import 'package:ct/Views/components/challenge_details/challenge_view.dart';
 import 'package:ct/Views/components/nodata.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
@@ -12,8 +13,20 @@ class ChallengesPage extends StatefulWidget {
   _ChallengesPageState createState() => _ChallengesPageState();
 }
 
-class _ChallengesPageState extends State<ChallengesPage> {
+class _ChallengesPageState extends State<ChallengesPage> with TickerProviderStateMixin {
+  AnimationController animationController;
   MainModel main;
+  @override
+  void initState() {
+    animationController = AnimationController(
+        duration: Duration(milliseconds: 1000), vsync: this);
+    super.initState();
+  }
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
@@ -44,34 +57,32 @@ class _ChallengesPageState extends State<ChallengesPage> {
     return ListView.builder(
       physics: BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
+        animationController.forward();
         return InkWell(
-            onTap: () {
-              _onItemTapped(model[index], index);
-            },
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  leading: ClipOval(
-                    child: Container(
-                      height: 55,
-                      width: 55,
-                      color: AppTheme.primaryColor
-                      //child: _getAvatar(model[index].path),
-                    ),
-                  ), //
-                  title: Text(('Name   : ${model[index].challengeName}')),
-                  subtitle: Text('Target : ${model[index].target.toString()}'),
-                  // trailing: IconButton(
-                  //     icon: Icon(Icons.delete_outline),
-                  //     onPressed: () {
-                  //       //_deleteDialog(context, dataList[index]);
-                  //     }),
-                ),
-                Divider(),
-              ],
-            ));
+          onTap: () {
+            _onItemTapped(model[index], index);
+          },
+          child: ChallengeView(
+            animation: _calculateAnimation(index),
+            animationController: animationController,
+            challenge: model[index],
+          ),
+        );
       },
       itemCount: model.length,
+    );
+  }
+  Animation<double> _calculateAnimation(int index) {
+    var count = main.challenges.length > 10 ? 10 : main.challenges.length;
+    return Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Interval(
+          (1 / count) * index,
+          1.0,
+          curve: Curves.fastOutSlowIn,
+        ),
+      ),
     );
   }
 

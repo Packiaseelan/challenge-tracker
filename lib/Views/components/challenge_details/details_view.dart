@@ -14,7 +14,8 @@ class DetailsView extends StatelessWidget {
 
   MainModel _mainModel;
   double _remainingAverage;
-  int _remaining;
+  int _remainingDays;
+  int _remainingHours;
   double _covered;
   double _averageCompleted;
   double _percentage;
@@ -92,7 +93,7 @@ class DetailsView extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 2),
                                                   child: Text(
-                                                    'Remaining Days',
+                                                    'Remaining Duration',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -118,7 +119,7 @@ class DetailsView extends StatelessWidget {
                                                               left: 4,
                                                               bottom: 3),
                                                       child: Text(
-                                                        '${(_remaining)}', //* animation.value).toInt()}',
+                                                        '${_remainingDays == 0 ? _remainingHours : _remainingDays}', //* animation.value).toInt()}',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -138,7 +139,9 @@ class DetailsView extends StatelessWidget {
                                                               left: 4,
                                                               bottom: 3),
                                                       child: Text(
-                                                        'days',
+                                                        _remainingDays == 0
+                                                            ? 'hours'
+                                                            : 'days',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -602,14 +605,22 @@ class DetailsView extends StatelessWidget {
             .difference(_mainModel.selectedChallenge.startDate)
             .inDays +
         1;
-    int completed = (DateTime.now()
-            .difference(_mainModel.selectedChallenge.startDate)
-            .inDays) +
-        1;
+    int completed = (start.isAfter(DateTime.now()))
+        ? 0
+        : (DateTime.now()
+                .difference(_mainModel.selectedChallenge.startDate)
+                .inDays) +
+            1;
 
-    _remaining = duration - completed;
+    _remainingDays = duration - completed;
 
-    if (_remaining < 0) _remaining = 0;
+    if (_remainingDays == 0) {
+      _remainingHours = 24 - DateTime.now().hour;
+    } else {
+      _remainingHours = 0;
+    }
+
+    if (_remainingDays < 0) _remainingDays = 0;
 
     var rides = _mainModel.rides
         .where((ride) =>
@@ -625,16 +636,24 @@ class DetailsView extends StatelessWidget {
 
     _covered = _covered + _mainModel.selectedChallenge.initial;
 
-    _remainingAverage = dp(
-        ((_mainModel.selectedChallenge.target -
-                (_mainModel.selectedChallenge.initial + _covered)) /
-            (duration - completed)),
-        2);
+    if (_remainingDays > 0) {
+      _remainingAverage = dp(
+          ((_mainModel.selectedChallenge.target - _covered) /
+              (duration - completed)),
+          2);
+    } else if (_remainingHours > 0) {
+      _remainingAverage =
+          dp(((_mainModel.selectedChallenge.target - _covered) / 1), 2);
+    } else {
+      _remainingAverage = 0;
+    }
 
     if (_remainingAverage < 0) _remainingAverage = 0;
 
-    _averageCompleted = dp((_covered / completed), 2);
-    _percentage = dp(((_covered / _mainModel.selectedChallenge.target) * 100), 2);
+    _averageCompleted = completed == 0 ? 0 : dp((_covered / completed), 2);
+    _percentage = _covered == 0
+        ? 0
+        : dp(((_covered / _mainModel.selectedChallenge.target) * 100), 2);
   }
 
   double dp(double val, int places) {

@@ -48,13 +48,13 @@ class RideModel {
 
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-    if (id != null && id != 0) {
-      map['id'] = id;
+    if (_id != null && _id != 0) {
+      map['id'] = _id;
     }
-    map['rideTo'] = rideTo;
-    map['createdDate'] = createdDate.millisecondsSinceEpoch;
-    map['modifiedDate'] = modifiedDate.millisecondsSinceEpoch;
-    map['kmCovered'] = kmCovered;
+    map['rideTo'] = _rideTo;
+    map['createdDate'] = _createdDate.millisecondsSinceEpoch;
+    map['modifiedDate'] = _modifiedDate.millisecondsSinceEpoch;
+    map['kmCovered'] = _kmCovered;
     map['isFavourite'] = _isFavourite ? 1 : 0;
     return map;
   }

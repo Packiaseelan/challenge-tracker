@@ -4,6 +4,7 @@ import 'package:ct/core/models/ride_filter.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class RideFilterPage extends StatefulWidget {
@@ -204,7 +205,7 @@ class _RideFilterPageState extends State<RideFilterPage> {
           child: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
               onTap: () {
-                _model.rideFilter = null;
+                _model.rideFilter = RideFilterModel.reset();
                 Navigator.pop(context);
               },
               child: Padding(
@@ -268,7 +269,7 @@ class _RideFilterPageState extends State<RideFilterPage> {
                       width: 4,
                     ),
                     Text(
-                      '${DateTime.now().toString()}',
+                      '${DateFormat("dd, MMM, yyyy").format(DateTime.now()).toString()}',
                       style: TextStyle(
                         color: AppTheme.primaryColor,
                         fontWeight: FontWeight.bold,
@@ -301,7 +302,7 @@ class _RideFilterPageState extends State<RideFilterPage> {
                       width: 4,
                     ),
                     Text(
-                      '${DateTime.now().toString()}',
+                      '${DateFormat("dd, MMM, yyyy").format(DateTime.now()).toString()}',
                       style: TextStyle(
                         color: AppTheme.primaryColor,
                         fontWeight: FontWeight.bold,

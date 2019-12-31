@@ -55,6 +55,7 @@ class _RidesListViewState extends State<RidesListView>
               height: 216,
               width: double.infinity,
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
                 itemCount: widget.rides.length,
@@ -166,7 +167,7 @@ class RidesView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "${DateFormat("dd, MMM, yyyy").format(mealsListData.createdDate)}",
+                                      '${DateFormat("dd, MMM, yyyy").format(mealsListData.createdDate)}',
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontName,
                                         fontWeight: FontWeight.w500,

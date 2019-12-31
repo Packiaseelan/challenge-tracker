@@ -56,11 +56,11 @@ class DetailsModel {
     if (id != null) {
       map['id'] = id;
     }
-    map['firstName'] = firstName;
-    map['lastName'] = lastName;
-    map['dateOfBirth'] = dOB;
-    map['weight'] = weight;
-    map['height'] = height;
+    map['firstName'] = _firstName;
+    map['lastName'] = _lastName;
+    map['dateOfBirth'] = _dOB;
+    map['weight'] = _weight;
+    map['height'] = _height;
     return map;
   }
 

@@ -6,6 +6,7 @@ class ChallengeModel {
   DateTime _endDate;
   double _target;
   double _initial;
+  bool _isFavourite;
 
   ChallengeModel(
     this._id,
@@ -15,6 +16,7 @@ class ChallengeModel {
     this._endDate,
     this._target,
     this._initial,
+    this._isFavourite,
   );
 
   int get id => _id;
@@ -24,6 +26,7 @@ class ChallengeModel {
   DateTime get endDate => _endDate;
   double get target => _target;
   double get initial => _initial;
+  bool get isFavourite => _isFavourite;
 
   set id(int newId) {
     this._id = newId;
@@ -53,17 +56,22 @@ class ChallengeModel {
     this._initial = newInitial;
   }
 
+  set isFavourite(bool fav){
+    this._isFavourite = fav;
+  }
+
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     if (id != null && id != 0) {
       map['id'] = id;
     }
-    map['challengeName'] = challengeName;
-    map['createdDate'] = createdDate.millisecondsSinceEpoch;
-    map['startDate'] = startDate.millisecondsSinceEpoch;
-    map['endDate'] = endDate.millisecondsSinceEpoch;
-    map['target'] = target;
-    map['initial'] = initial;
+    map['challengeName'] = _challengeName;
+    map['createdDate'] = _createdDate.millisecondsSinceEpoch;
+    map['startDate'] = _startDate.millisecondsSinceEpoch;
+    map['endDate'] = _endDate.millisecondsSinceEpoch;
+    map['target'] = _target;
+    map['initial'] = _initial;
+    map['isFavourite'] = _isFavourite ? 1 : 0;
     return map;
   }
 
@@ -75,5 +83,6 @@ class ChallengeModel {
     this._endDate = DateTime.fromMillisecondsSinceEpoch(map['endDate']);
     this._target = map['target'];
     this._initial = map['initial'];
+    this._isFavourite = map['isFavourite'] == 1;
   }
 }
