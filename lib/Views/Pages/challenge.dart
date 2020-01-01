@@ -1,4 +1,5 @@
 import 'package:ct/Views/components/app_button.dart';
+import 'package:ct/Views/components/calendar/calendar_popup_view.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
@@ -10,6 +11,8 @@ class ChallengePage extends StatefulWidget {
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
+
+bool _isLoad = false;
 
 class _ChallengePageState extends State<ChallengePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -63,8 +66,7 @@ class _ChallengePageState extends State<ChallengePage> {
           physics: BouncingScrollPhysics(),
           children: <Widget>[
             _buildTextField('Challenge name', false),
-            _buildStartDatePicker(),
-            _buildEndDatePicker(),
+            _buildDatePicker(),
             _buildTextField('Target', true),
             _buildTextField('Initial', true),
             _buildRemainimg(),
@@ -96,7 +98,7 @@ class _ChallengePageState extends State<ChallengePage> {
     );
   }
 
-  Widget _buildStartDatePicker() {
+  Widget _buildDatePicker() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
@@ -109,77 +111,34 @@ class _ChallengePageState extends State<ChallengePage> {
         ),
         child: Row(
           children: <Widget>[
-            Text('Start Date'),
+            Text('Duration'),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              'From',
+              style: TextStyle(color: Colors.grey),
+            ),
             FlatButton(
-              onPressed: () => _selectStartDate(),
+              onPressed: () => showDemoDialog(context: context),
               child: Text(
                 '${startDate.day}-${startDate.month}-${startDate.year}',
               ),
             ),
             Text(
-              'Format(dd-MM-yyyy)',
+              'To',
               style: TextStyle(color: Colors.grey),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEndDatePicker() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
-          ),
-        ),
-        child: Row(
-          children: <Widget>[
-            Text('End Date'),
             FlatButton(
-              onPressed: () => _selectEndDate(),
+              onPressed: () => showDemoDialog(context: context),
               child: Text(
                 '${endDate.day}-${endDate.month}-${endDate.year}',
               ),
             ),
-            Text(
-              'Format(dd-MM-yyyy)',
-              style: TextStyle(color: Colors.grey),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  Future<Null> _selectStartDate() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: startDate,
-        firstDate: DateTime(1900, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != startDate)
-      setState(() {
-        startDate = picked;
-        durationInDays = endDate.difference(startDate).inDays + 1;
-      });
-  }
-
-  Future<Null> _selectEndDate() async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: endDate,
-        firstDate: startDate,
-        lastDate: DateTime(2101));
-    if (picked != null && picked != endDate)
-      setState(() {
-        endDate = picked;
-        durationInDays = endDate.difference(startDate).inDays + 1;
-      });
   }
 
   Widget _buildTextField(String text, bool isNumeric) {
@@ -262,12 +221,15 @@ class _ChallengePageState extends State<ChallengePage> {
 
   void _updateSelectedChallengeDetails() {
     if (main.selectedChallenge != null) {
-      challengeName = main.selectedChallenge.challengeName;
-      startDate = main.selectedChallenge.startDate;
-      endDate = main.selectedChallenge.endDate;
-      target = main.selectedChallenge.target;
-      initial = main.selectedChallenge.initial;
-      remainingAverage = (target - initial) / durationInDays.round();
+      if (!_isLoad) {
+        challengeName = main.selectedChallenge.challengeName;
+        startDate = main.selectedChallenge.startDate;
+        endDate = main.selectedChallenge.endDate;
+        target = main.selectedChallenge.target;
+        initial = main.selectedChallenge.initial;
+        remainingAverage = (target - initial) / durationInDays.round();
+        _isLoad = true;
+      }
     }
   }
 
@@ -276,6 +238,29 @@ class _ChallengePageState extends State<ChallengePage> {
       isPopup: true,
       title: 'Challenge Details',
       onTap: () {},
+    );
+  }
+
+  void showDemoDialog({BuildContext context}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CalendarPopupView(
+        barrierDismissible: true,
+        minimumDate: DateTime.now(),
+        initialEndDate: endDate,
+        initialStartDate: startDate,
+        onApplyClick: (DateTime startData, DateTime endData) {
+          setState(() {
+            if (startData != null && endData != null) {
+              startDate = startData;
+              endDate = endData;
+              durationInDays = endDate.difference(startDate).inDays + 1;
+              remainingAverage = (target - initial) / durationInDays.round();
+            }
+          });
+        },
+        onCancelClick: () {},
+      ),
     );
   }
 }
