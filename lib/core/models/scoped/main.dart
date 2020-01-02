@@ -21,9 +21,9 @@ class MainModel extends Model {
   int currentHomePage;
 
   void init() {
-    currentHomePage = 1;
     rideFilter = RideFilterModel.reset();
     challengeFilter = ChallengeFilterModel.reset();
+    currentHomePage = 1;
     notifyListeners();
     _getDetails();
     _getChallenges();

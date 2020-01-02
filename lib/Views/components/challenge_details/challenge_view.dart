@@ -2,7 +2,6 @@ import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ChallengeView extends StatefulWidget {
@@ -21,10 +20,12 @@ class ChallengeView extends StatefulWidget {
 }
 
 class _ChallengeViewState extends State<ChallengeView> {
+  MainModel _model;
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
+        _model = model;
         return AnimatedBuilder(
           animation: widget.animationController,
           builder: (BuildContext context, Widget child) {
@@ -79,12 +80,15 @@ class _ChallengeViewState extends State<ChallengeView> {
                                             ),
                                           ),
                                         ),
-                                        _buildRow('Target   ',
-                                            '${widget.challenge.target} km'),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
+                                        _buildRow(
+                                            'Target',
+                                            _buildLabel(
+                                                '${widget.challenge.target} km',
+                                                null)),
+                                        SizedBox(height: 10),
                                         _buildRow('Duration', _getDuration()),
+                                        SizedBox(height: 10),
+                                        _buildRow('Status', _getStatus()),
                                       ],
                                     ),
                                   ),
@@ -118,28 +122,28 @@ class _ChallengeViewState extends State<ChallengeView> {
                               ),
                             ),
                           ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(32.0),
-                                  ),
-                                  onTap: () {
-                                    model.deleteChallenge(widget.challenge);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.delete_outline,
-                                      color: AppTheme.primaryColor,
-                                    ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(32.0),
+                                ),
+                                onTap: () {
+                                  model.deleteChallenge(widget.challenge);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.delete_outline,
+                                    color: AppTheme.primaryColor,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -153,35 +157,75 @@ class _ChallengeViewState extends State<ChallengeView> {
     );
   }
 
-  Widget _buildRow(String title, String value) {
+  Widget _buildRow(String title, Widget child) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(fontSize: 14, color: Colors.grey.withOpacity(0.8)),
+        Container(
+          width: 80,
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 14, color: Colors.grey.withOpacity(0.8)),
+          ),
         ),
         SizedBox(
           width: 4,
         ),
         Expanded(
-          child: Text(
-            value,
-            overflow: TextOverflow.ellipsis,
-            style:
-                TextStyle(fontSize: 20, color: Colors.black.withOpacity(0.8)),
-          ),
+          child: child,
         ),
       ],
     );
   }
 
-  String _getDuration() {
-    String str = '';
-    str =
-        '${DateFormat("dd MMM").format(widget.challenge.startDate)} - ${DateFormat("dd MMM").format(widget.challenge.endDate)}';
+  Widget _getDuration() {
+    return _buildLabel(widget.challenge.getDurationToString(), null);
+  }
 
-    return str;
+  Widget _buildLabel(String text, Color color) {
+    return Text(
+      text,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontSize: 20,
+        color: color == null ? Colors.black.withOpacity(0.8) : color,
+      ),
+    );
+  }
+
+  Widget _getStatus() {
+    var date = DateTime.now();
+    var start = widget.challenge.startDate;
+    var end = widget.challenge.endDate;
+    double covered = widget.challenge.initial;
+    if (start.isAfter(date)) {
+      return _buildLabel('Not yet started', Colors.cyan);
+    }
+
+    var rides = _model.rides
+        .where((ride) =>
+            (ride.createdDate.day >= start.day &&
+                ride.createdDate.month >= start.month &&
+                ride.createdDate.year >= start.year) &&
+            (ride.createdDate.day <= end.day &&
+                ride.createdDate.month <= end.month &&
+                ride.createdDate.year <= end.year))
+        .toList();
+
+    rides.forEach((f) => covered += f.kmCovered);
+
+    if (covered >= widget.challenge.target) {
+      return _buildLabel('Completed', Colors.green);
+    }
+
+    if ((end.difference(date).inDays + 1) == 0) {
+      if (covered < widget.challenge.target)
+        return _buildLabel('InCompleted', Colors.red);
+      else
+        return _buildLabel('Completed', Colors.green);
+    } else {
+      return _buildLabel('InProgress', Colors.indigo);
+    }
   }
 }

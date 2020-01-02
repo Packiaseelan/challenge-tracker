@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ChallengeModel {
   int _id;
   String _challengeName;
@@ -56,7 +58,7 @@ class ChallengeModel {
     this._initial = newInitial;
   }
 
-  set isFavourite(bool fav){
+  set isFavourite(bool fav) {
     this._isFavourite = fav;
   }
 
@@ -84,5 +86,13 @@ class ChallengeModel {
     this._target = map['target'];
     this._initial = map['initial'];
     this._isFavourite = map['isFavourite'] == 1;
+  }
+
+  int getDuration() {
+    return _endDate.difference(_startDate).inDays + 1;
+  }
+
+  String getDurationToString() {
+    return '${DateFormat("dd MMM").format(_startDate)} - ${DateFormat("dd MMM").format(_endDate)}';
   }
 }

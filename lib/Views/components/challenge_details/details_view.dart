@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:scoped_model/scoped_model.dart';
 
+MainModel _mainModel;
+double _remainingAverage;
+int _remainingDays;
+int _remainingHours;
+double _covered;
+double _averageCompleted;
+double _percentage;
+
 class DetailsView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
-
-  MainModel _mainModel;
-  double _remainingAverage;
-  int _remainingDays;
-  int _remainingHours;
-  double _covered;
-  double _averageCompleted;
-  double _percentage;
 
   DetailsView({Key key, this.animationController, this.animation})
       : super(key: key);
@@ -595,9 +595,9 @@ class DetailsView extends StatelessWidget {
   void calculation() {
     var start = _mainModel.selectedChallenge.startDate;
     var end = _mainModel.selectedChallenge.endDate;
-    _covered = 0;
+    _covered = _mainModel.selectedChallenge.initial;
 
-    int duration = end.difference(start).inDays + 1;
+    int duration = _mainModel.selectedChallenge.getDuration();
     int completed = (start.isAfter(DateTime.now()))
         ? 0
         : (DateTime.now().difference(start).inDays) + 1;
@@ -623,8 +623,6 @@ class DetailsView extends StatelessWidget {
         .toList();
 
     rides.forEach((f) => _covered += f.kmCovered);
-
-    _covered = _covered + _mainModel.selectedChallenge.initial;
 
     if (_remainingDays > 0) {
       _remainingAverage = dp(

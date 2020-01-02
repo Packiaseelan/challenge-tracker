@@ -1,3 +1,5 @@
+import 'package:ct/core/enums/challenge_status.dart';
+import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (BuildContext context, Widget child, MainModel model) {
         _model = model;
         return Scaffold(
+          backgroundColor: AppTheme.background,
           body: PageView(
             controller: _controller,
             physics: NeverScrollableScrollPhysics(),
@@ -118,6 +121,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               _buildTiles(),
+              Expanded(
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: <Widget>[
+                    _buildChallenges(),
+                    SizedBox(height: 20),
+                    _buildRides(),
+                    SizedBox(height: 20),
+                    _buildFavourites(),
+                  ],
+                ),
+              )
             ],
           ),
         ],
@@ -131,9 +146,14 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _buildTile(Icons.track_changes, 'Challenges', _model.challenges.length),
+          _buildTile(
+              Icons.track_changes, 'Challenges', _model.challenges.length),
           _buildTile(Icons.directions_bike, 'Rides', _model.rides.length),
-          _buildTile(Icons.favorite_border, 'Favourites', _model.rides.where((r)=>r.isFavourite).toList().length),
+          _buildTile(
+              Icons.favorite_border,
+              'Favourites',
+              (_model.rides.where((r) => r.isFavourite).toList().length) +
+                  (_model.challenges.where((c) => c.isFavourite).length)),
         ],
       ),
     );
@@ -164,7 +184,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 5,),
+                SizedBox(
+                  height: 5,
+                ),
                 Text(
                   title,
                   style: TextStyle(
@@ -175,6 +197,204 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildChallenges() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 50),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Colors.white,
+      ),
+      height: 200,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Positioned(
+            top: -50,
+            right: -50,
+            bottom: -50,
+            child: Icon(
+              Icons.track_changes,
+              size: 200,
+              color: AppTheme.background,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    'Challenges',
+                    style: AppTheme.headline,
+                  ),
+                ),
+                _buildRows(
+                    'Completed', _getChallenges(ChallengeStatus.complete)),
+                _buildRows(
+                    'Pending', _getChallenges(ChallengeStatus.inProgress)),
+                _buildRows(
+                    'In Completed', _getChallenges(ChallengeStatus.inComplete)),
+                _buildRows(
+                    'Yet To Start', _getChallenges(ChallengeStatus.yetToStart)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRides() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 50),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Colors.white,
+      ),
+      height: 100,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Positioned(
+            top: -50,
+            right: -50,
+            bottom: -50,
+            child: Icon(
+              Icons.directions_bike,
+              size: 150,
+              color: AppTheme.background,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    'Rides',
+                    style: AppTheme.headline,
+                  ),
+                ),
+                _buildRows('Total Rides', _model.rides.length.toString()),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFavourites() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 50),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Colors.white,
+      ),
+      height: 150,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Positioned(
+            top: -50,
+            right: -50,
+            bottom: -50,
+            child: Icon(
+              Icons.favorite_border,
+              size: 150,
+              color: AppTheme.background,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    'Favouries',
+                    style: AppTheme.headline,
+                  ),
+                ),
+                _buildRows(
+                    'Challenges',
+                    _model.challenges
+                        .where((r) => r.isFavourite)
+                        .length
+                        .toString()),
+                _buildRows('Rides',
+                    _model.rides.where((r) => r.isFavourite).length.toString()),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getChallenges(ChallengeStatus status) {
+    List<ChallengeModel> ch = [];
+    for (var c in _model.challenges) {
+      var s = _getStatus(c);
+      if (s == status) {
+        ch.add(c);
+      }
+    }
+    return ch.length.toString();
+  }
+
+  ChallengeStatus _getStatus(ChallengeModel challenge) {
+    var date = DateTime.now();
+    var start = challenge.startDate;
+    var end = challenge.endDate;
+    double covered = challenge.initial;
+    if (start.isAfter(date)) {
+      return ChallengeStatus.yetToStart;
+    }
+    var rides = _model.rides
+        .where((ride) =>
+            (ride.createdDate.day >= start.day &&
+                ride.createdDate.month >= start.month &&
+                ride.createdDate.year >= start.year) &&
+            (ride.createdDate.day <= end.day &&
+                ride.createdDate.month <= end.month &&
+                ride.createdDate.year <= end.year))
+        .toList();
+
+    rides.forEach((f) => covered += f.kmCovered);
+
+    if (covered >= challenge.target) {
+      return ChallengeStatus.complete;
+    }
+
+    if ((end.difference(date).inDays + 1) == 0) {
+      if (covered < challenge.target)
+        return ChallengeStatus.inComplete;
+      else
+        return ChallengeStatus.complete;
+    } else {
+      return ChallengeStatus.inProgress;
+    }
+  }
+
+  Widget _buildRows(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[Text(title), Text(value)],
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:ct/Views/components/context_tab_header.dart';
 import 'package:ct/Views/components/nodata.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
+import 'package:ct/core/enums/challenge_status.dart';
 import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
@@ -42,6 +43,61 @@ class _ChallengesPageState extends State<ChallengesPage>
       if (main.challengeFilter.isFavourite) {
         challenges = main.challenges.where((ride) => ride.isFavourite).toList();
       }
+      if (main.challengeFilter.status == ChallengeStatus.complete) {
+        challenges = _getFIlteredChallenges(ChallengeStatus.complete);
+      } else if (main.challengeFilter.status == ChallengeStatus.inProgress) {
+        challenges = _getFIlteredChallenges(ChallengeStatus.inProgress);
+      } else if (main.challengeFilter.status == ChallengeStatus.inComplete) {
+        challenges = _getFIlteredChallenges(ChallengeStatus.inComplete);
+      } else if (main.challengeFilter.status == ChallengeStatus.yetToStart) {
+        challenges = _getFIlteredChallenges(ChallengeStatus.yetToStart);
+      }
+    }
+  }
+
+  List<ChallengeModel> _getFIlteredChallenges(ChallengeStatus status) {
+    List<ChallengeModel> ch = [];
+    for (var c in challenges) {
+      var s = _getStatus(c);
+      if (s == status) {
+        ch.add(c);
+      }
+    }
+    return ch;
+  }
+
+  ChallengeStatus _getStatus(ChallengeModel challenge) {
+    var date = DateTime.now();
+    var start = challenge.startDate;
+    var end = challenge.endDate;
+    double covered = challenge.initial;
+    if (start.isAfter(date)) {
+      return ChallengeStatus.yetToStart;
+    }
+
+    var rides = main.rides
+        .where((ride) =>
+            (ride.createdDate.day >= start.day &&
+                ride.createdDate.month >= start.month &&
+                ride.createdDate.year >= start.year) &&
+            (ride.createdDate.day <= end.day &&
+                ride.createdDate.month <= end.month &&
+                ride.createdDate.year <= end.year))
+        .toList();
+
+    rides.forEach((f) => covered += f.kmCovered);
+
+    if (covered >= challenge.target) {
+      return ChallengeStatus.complete;
+    }
+
+    if ((end.difference(date).inDays + 1) == 0) {
+      if (covered < challenge.target)
+        return ChallengeStatus.inComplete;
+      else
+        return ChallengeStatus.complete;
+    } else {
+      return ChallengeStatus.inProgress;
     }
   }
 
@@ -328,11 +384,9 @@ class _ChallengesPageState extends State<ChallengesPage>
   void onSearch() {
     setState(() {
       if (search.length > 0) {
-        print(search);
         challenges = main.challenges
             .where((c) => c.challengeName.contains(search))
             .toList();
-        print(challenges.length);
       } else {
         challenges = main.challenges;
       }

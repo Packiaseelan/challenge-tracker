@@ -133,11 +133,11 @@ class _FancyTabBarState extends State<FancyTabBar>
                   ),
                   TabItem(
                     selected: currentSelected == 2,
-                    iconData: Icons.assessment,
-                    title: 'Reports',
+                    iconData: Icons.person,
+                    title: 'User',
                     callbackFunction: () {
                       setState(() {
-                        nextIcon = Icons.assessment;
+                        nextIcon = Icons.person;
                         currentSelected = 2;
                       });
                       _initAnimationAndStart(_positionAnimation.value, 1);
