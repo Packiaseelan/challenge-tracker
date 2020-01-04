@@ -14,13 +14,14 @@ class ChallengeFilterPage extends StatefulWidget {
 
 class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
   MainModel _model;
-  int _selectedValue;
+  ChallengeStatus _status;
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
       _model = model;
+      _status = _model.challengeFilter.status;
       return Container(
         color: AppTheme.background,
         child: Scaffold(
@@ -129,7 +130,7 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
 
   Widget statusFilter() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
@@ -146,61 +147,61 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
         SizedBox(height: 8),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [0, 1, 2, 3].map((index) => _buildRadio(index)).toList(),
+          children: ChallengeStatus.values
+              .map((index) => _buildRadio(index))
+              .toList(),
         )
       ],
     );
   }
 
-  Widget _buildRadio(int index) {
-    return Row(
-      children: <Widget>[
-        Radio<int>(
-          value: _selectedValue,
-          groupValue: 1,
-          onChanged: (value) {
-            setState(() {
-              _selectedValue = value;
-              onChange(value);
-            });
-          },
+  Widget _buildRadio(ChallengeStatus status) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        onTap: () {
+          setState(() {
+            _model.challengeFilter.status = status;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                _getText(status),
+              ),
+              SizedBox(width: 4),
+              _buildIcon(status),
+            ],
+          ),
         ),
-        Text(_getTitle(index))
-      ],
+      ),
     );
   }
 
-  String _getTitle(int index) {
-    switch (index) {
-      case 0:
-        return 'In Progress';
-      case 1:
-        return 'Complete';
-      case 2:
-        return 'In Complete';
-      case 3:
-        return 'Yet To Start';
-      default:
-        return '';
+  Widget _buildIcon(ChallengeStatus status) {
+    if (status != _status) {
+      return SizedBox();
     }
+    return Icon(Icons.check_circle, color: AppTheme.primaryColor,);
   }
-  void onChange(int value){
-    switch (value) {
-      case 0:
-      _model.challengeFilter.status = ChallengeStatus.inProgress;
-      break;
-      case 1:
-        _model.challengeFilter.status = ChallengeStatus.complete;
-      break;
-      case 2:
-        _model.challengeFilter.status = ChallengeStatus.inComplete;
-      break;
-      case 3:
-        _model.challengeFilter.status = ChallengeStatus.yetToStart;
-      break;
+
+  String _getText(ChallengeStatus status) {
+    switch (status) {
+      case ChallengeStatus.complete:
+        return 'Completed';
+      case ChallengeStatus.inProgress:
+        return 'On Going';
+      case ChallengeStatus.inComplete:
+        return 'In Complete';
+      case ChallengeStatus.yetToStart:
+        return 'Yet To Start';
+      case ChallengeStatus.none:
       default:
-        _model.challengeFilter.status = ChallengeStatus.none;
-      break;
+        return 'All';
     }
   }
 
