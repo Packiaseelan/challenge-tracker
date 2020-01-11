@@ -4,7 +4,7 @@ class AppTheme {
   AppTheme._();
 
   static ThemeData buildLightTheme() {
-    Color primaryColor = Color(0xFF8C77EC);
+    Color primaryColor = Color(0xFF4caf50);//Color(0xFF8C77EC);
     Color secondaryColor = HexColor("#54D3C2");
     final ColorScheme colorScheme = const ColorScheme.light().copyWith(
       primary: primaryColor,
@@ -53,7 +53,7 @@ class AppTheme {
     );
   }
 
-  static const Color primaryColor = Color(0xFF8C77EC);// Colors.indigo;
+  static const Color primaryColor = Color(0xFF1a237e);//Color(0xFF8C77EC);// Colors.indigo;
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);

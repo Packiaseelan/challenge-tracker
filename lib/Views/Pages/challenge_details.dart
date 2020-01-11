@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ct/Views/components/challenge_details/details_view.dart';
 import 'package:ct/Views/components/challenge_details/rides_listview.dart';
 import 'package:ct/Views/components/challenge_details/titleView.dart';
@@ -300,7 +299,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
                         SizedBox(
                           height: 8,
                         ),
-                        AutoSizeText(
+                        Text(
                           "${DateFormat("dd, MMM, yyyy").format(_model.selectedChallenge.startDate)}",
                           style: dateSubTitle,
                           maxLines: 1,
@@ -339,7 +338,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
                         SizedBox(
                           height: 8,
                         ),
-                        AutoSizeText(
+                        Text(
                           "${DateFormat("dd, MMM, yyyy").format(_model.selectedChallenge.endDate)}",
                           style: dateSubTitle,
                           maxLines: 1,
@@ -378,7 +377,7 @@ class _ChallengeDetailsState extends State<ChallengeDetails>
                         SizedBox(
                           height: 8,
                         ),
-                        AutoSizeText(
+                        Text(
                           "${_getDurationDays()}",
                           style: dateSubTitle,
                           maxLines: 1,
