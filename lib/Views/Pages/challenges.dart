@@ -3,6 +3,7 @@ import 'package:ct/Views/components/context_tab_header.dart';
 import 'package:ct/Views/components/nodata.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
+import 'package:ct/core/enums/activities.dart';
 import 'package:ct/core/enums/challenge_status.dart';
 import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
@@ -36,14 +37,18 @@ class _ChallengesPageState extends State<ChallengesPage>
   }
 
   void _getChallenges() {
+    challenges = main.challenges;
     if (search.length <= 0) {
-      challenges = main.challenges;
+      challenges = _getFIlteredChallenges(ChallengeStatus.inProgress);
     }
     if (main.challengeFilter != null && main.challengeFilter.isSelected) {
       if (main.challengeFilter.isFavourite) {
-        challenges = main.challenges.where((ride) => ride.isFavourite).toList();
+        challenges = main.challenges.where((c) => c.isFavourite).toList();
       }
-      if (main.challengeFilter.status == ChallengeStatus.complete) {
+
+      if (main.challengeFilter.status == ChallengeStatus.none) {
+        challenges = main.challenges;
+      } else if (main.challengeFilter.status == ChallengeStatus.complete) {
         challenges = _getFIlteredChallenges(ChallengeStatus.complete);
       } else if (main.challengeFilter.status == ChallengeStatus.inProgress) {
         challenges = _getFIlteredChallenges(ChallengeStatus.inProgress);
@@ -52,6 +57,14 @@ class _ChallengesPageState extends State<ChallengesPage>
       } else if (main.challengeFilter.status == ChallengeStatus.yetToStart) {
         challenges = _getFIlteredChallenges(ChallengeStatus.yetToStart);
       }
+
+      if (main.challengeFilter.activity == Activities.cycling) {
+        challenges =
+            challenges.where((c) => c.activity == Activities.cycling).toList();
+      } else if (main.challengeFilter.activity == Activities.running) {
+        challenges =
+            challenges.where((c) => c.activity == Activities.running).toList();
+      } else {}
     }
   }
 
@@ -91,7 +104,7 @@ class _ChallengesPageState extends State<ChallengesPage>
       return ChallengeStatus.complete;
     }
 
-    if ((end.difference(date).inDays + 1) == 0) {
+    if (challenge.isCompleted()) {
       if (covered < challenge.target)
         return ChallengeStatus.inComplete;
       else
@@ -132,7 +145,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                     return Column(
                       children: <Widget>[
                         getSearchBarUI(),
-                        //getTimeDateUI(),
+                        _buildFilterDetails(),
                       ],
                     );
                   }, childCount: 1),
@@ -147,10 +160,10 @@ class _ChallengesPageState extends State<ChallengesPage>
               ];
             },
             body: Container(
-                color: AppTheme.background,
-                child: challenges.length == 0
-                    ? _noData()
-                    : _buildList(challenges)),
+              color: AppTheme.background,
+              child:
+                  challenges.length == 0 ? _noData() : _buildList(challenges),
+            ),
           ),
         ),
       ],
@@ -379,6 +392,13 @@ class _ChallengesPageState extends State<ChallengesPage>
         ],
       ),
     );
+  }
+
+  Widget _buildFilterDetails() {
+    if (!main.challengeFilter.isSelected) {
+      return SizedBox();
+    }
+    return Container();
   }
 
   void onSearch() {

@@ -1,3 +1,5 @@
+import 'package:ct/core/enums/activities.dart';
+
 class RideModel {
   int _id;
   String _rideTo;
@@ -5,6 +7,7 @@ class RideModel {
   DateTime _modifiedDate;
   double _kmCovered;
   bool _isFavourite;
+  Activities _activity;
 
   RideModel(
     this._id,
@@ -13,6 +16,7 @@ class RideModel {
     this._createdDate,
     this._modifiedDate,
     this._isFavourite,
+    this._activity,
   );
 
   int get id => _id;
@@ -21,6 +25,7 @@ class RideModel {
   DateTime get modifiedDate => _modifiedDate;
   double get kmCovered => _kmCovered;
   bool get isFavourite => _isFavourite;
+  Activities get activity => _activity;
 
   set id(int newId) {
     this._id = newId;
@@ -46,6 +51,10 @@ class RideModel {
     this._isFavourite = isfav;
   }
 
+  set activity(Activities activities) {
+    this._activity = activities;
+  }
+
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
     if (_id != null && _id != 0) {
@@ -56,6 +65,7 @@ class RideModel {
     map['modifiedDate'] = _modifiedDate.millisecondsSinceEpoch;
     map['kmCovered'] = _kmCovered;
     map['isFavourite'] = _isFavourite ? 1 : 0;
+    map['activity'] = _activity.index;
     return map;
   }
 
@@ -67,5 +77,6 @@ class RideModel {
         DateTime.fromMillisecondsSinceEpoch(map['modifiedDate']);
     this._kmCovered = map['kmCovered'];
     this._isFavourite = map['isFavourite'] == 1;
+    this._activity = Activities.values[map['activity']];
   }
 }

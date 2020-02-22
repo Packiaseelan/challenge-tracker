@@ -1,5 +1,6 @@
 import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/scoped/main.dart';
+import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -19,8 +20,8 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: AppTheme.primaryColor,//Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.white,
       systemNavigationBarDividerColor: Colors.grey,

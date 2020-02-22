@@ -3,6 +3,7 @@ import 'package:ct/Views/components/nodata.dart';
 import 'package:ct/Views/components/rides_view.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/Views/router.dart';
+import 'package:ct/core/enums/activities.dart';
 import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
@@ -74,6 +75,12 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                 ride.createdDate.year == tdate.year)
             .toList();
       }
+
+      if (_model.rideFilter.activity == Activities.running) {
+        rides = rides.where((r) => r.activity == Activities.running).toList();
+      } else if (_model.rideFilter.activity == Activities.cycling) {
+        rides = rides.where((r) => r.activity == Activities.cycling).toList();
+      }
     }
   }
 
@@ -94,7 +101,6 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
                     return Column(
                       children: <Widget>[
                         getSearchBarUI(),
-                        //getTimeDateUI(),
                       ],
                     );
                   }, childCount: 1),

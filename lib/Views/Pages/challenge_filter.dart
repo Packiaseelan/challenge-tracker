@@ -1,5 +1,6 @@
 import 'package:ct/Views/components/app_button.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
+import 'package:ct/core/enums/activities.dart';
 import 'package:ct/core/enums/challenge_status.dart';
 import 'package:ct/core/models/challenge_filter.dart';
 import 'package:ct/core/models/scoped/main.dart';
@@ -15,6 +16,7 @@ class ChallengeFilterPage extends StatefulWidget {
 class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
   MainModel _model;
   ChallengeStatus _status;
+  Activities _activity;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       _model = model;
       _status = _model.challengeFilter.status;
+      _activity = _model.challengeFilter.activity;
       return Container(
         color: AppTheme.background,
         child: Scaffold(
@@ -34,6 +37,8 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
                   child: Column(
                     children: <Widget>[
                       favFilter(),
+                      Divider(height: 1),
+                      activityFilter(),
                       Divider(height: 1),
                       statusFilter(),
                       Divider(height: 1),
@@ -128,6 +133,32 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
     );
   }
 
+  Widget activityFilter() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Activity',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+        SizedBox(height: 8),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children:
+              Activities.values.map((index) => _buildActivityRadio(index)).toList(),
+        )
+      ],
+    );
+  }
+
   Widget statusFilter() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,6 +183,33 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
               .toList(),
         )
       ],
+    );
+  }
+
+  Widget _buildActivityRadio(Activities status) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        onTap: () {
+          setState(() {
+            _model.challengeFilter.activity = status;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                _getActivityText(status),
+              ),
+              SizedBox(width: 4),
+              _buildActivityIcon(status),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -186,7 +244,20 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
     if (status != _status) {
       return SizedBox();
     }
-    return Icon(Icons.check_circle, color: AppTheme.primaryColor,);
+    return Icon(
+      Icons.check_circle,
+      color: AppTheme.primaryColor,
+    );
+  }
+
+  Widget _buildActivityIcon(Activities status) {
+    if (status != _activity) {
+      return SizedBox();
+    }
+    return Icon(
+      Icons.check_circle,
+      color: AppTheme.primaryColor,
+    );
   }
 
   String _getText(ChallengeStatus status) {
@@ -200,6 +271,17 @@ class _ChallengeFilterPageState extends State<ChallengeFilterPage> {
       case ChallengeStatus.yetToStart:
         return 'Yet To Start';
       case ChallengeStatus.none:
+      default:
+        return 'All';
+    }
+  }
+
+  String _getActivityText(Activities activity) {
+    switch (activity) {
+      case Activities.cycling:
+        return 'Cycling';
+      case Activities.running:
+        return 'Running';
       default:
         return 'All';
     }

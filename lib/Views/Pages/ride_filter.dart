@@ -1,5 +1,6 @@
 import 'package:ct/Views/components/app_button.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
+import 'package:ct/core/enums/activities.dart';
 import 'package:ct/core/models/ride_filter.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
@@ -14,11 +15,13 @@ class RideFilterPage extends StatefulWidget {
 
 class _RideFilterPageState extends State<RideFilterPage> {
   MainModel _model;
+  Activities _activity;
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
       _model = model;
+      _activity = model.rideFilter.activity;
       return Container(
         color: AppTheme.background,
         child: Scaffold(
@@ -33,6 +36,8 @@ class _RideFilterPageState extends State<RideFilterPage> {
                       favFilter(),
                       Divider(height: 1),
                       _buildTodays(),
+                      Divider(height: 1),
+                      activityFilter(),
                       Divider(height: 1),
                       _buildDateFilters(),
                       Divider(height: 1),
@@ -125,6 +130,82 @@ class _RideFilterPageState extends State<RideFilterPage> {
         ),
       ],
     );
+  }
+
+  Widget activityFilter() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Activity',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: MediaQuery.of(context).size.width > 360 ? 18 : 16,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+        ),
+        SizedBox(height: 8),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: Activities.values
+              .map((index) => _buildActivityRadio(index))
+              .toList(),
+        )
+      ],
+    );
+  }
+
+  Widget _buildActivityRadio(Activities status) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        onTap: () {
+          setState(() {
+            _model.rideFilter.activity = status;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                _getActivityText(status),
+              ),
+              SizedBox(width: 4),
+              _buildActivityIcon(status),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActivityIcon(Activities status) {
+    if (status != _activity) {
+      return SizedBox();
+    }
+    return Icon(
+      Icons.check_circle,
+      color: AppTheme.primaryColor,
+    );
+  }
+
+  String _getActivityText(Activities activity) {
+    switch (activity) {
+      case Activities.cycling:
+        return 'Cycling';
+      case Activities.running:
+        return 'Running';
+      default:
+        return 'All';
+    }
   }
 
   Widget _buildTodays() {

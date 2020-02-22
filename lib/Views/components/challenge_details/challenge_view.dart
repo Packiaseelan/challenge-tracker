@@ -219,7 +219,7 @@ class _ChallengeViewState extends State<ChallengeView> {
       return _buildLabel('Completed', Colors.green);
     }
 
-    if ((end.difference(date).inDays + 1) == 0) {
+    if (widget.challenge.isCompleted()) {
       if (covered < widget.challenge.target)
         return _buildLabel('InCompleted', Colors.red);
       else
@@ -227,5 +227,14 @@ class _ChallengeViewState extends State<ChallengeView> {
     } else {
       return _buildLabel('InProgress', Colors.indigo);
     }
+
+    // if ((end.difference(date).inDays + 1) == 0) {
+    //   if (covered < widget.challenge.target)
+    //     return _buildLabel('InCompleted', Colors.red);
+    //   else
+    //     return _buildLabel('Completed', Colors.green);
+    // } else {
+    //   return _buildLabel('InProgress', Colors.indigo);
+    // }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:ct/Views/components/app_button.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
+import 'package:ct/core/enums/activities.dart';
 import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
@@ -18,6 +19,8 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
   String rideTo;
   double kmCovered;
   MainModel main;
+  Activities _activity = Activities.none;
+  bool _buttonClicked = false;
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
@@ -49,9 +52,12 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
   }
 
   void onSave() {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
+    setState(() {
+      _buttonClicked = true;
+    });
+    if (!_formKey.currentState.validate()) return;
+    print(_activity);
+    if (_activity == Activities.none) return;
     _formKey.currentState.save();
 
     var model = RideModel(
@@ -61,6 +67,7 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
       selectedDate,
       DateTime.now(),
       false,
+      _activity,
     );
     main.saveRideRecords(model);
     Navigator.pop(context);
@@ -77,6 +84,68 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
             _buildTextField('Ride to', false),
             _buildTextField('Km covered', true),
             _buildDatePicker(),
+            _buildActivityPicker(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActivityPicker() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+        child: Row(
+          children: <Widget>[
+            Text('Activity'),
+            SizedBox(
+              width: 20,
+            ),
+            FlatButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () {
+                setState(() {
+                  _activity = Activities.running;
+                });
+              },
+              child: Icon(
+                Icons.directions_run,
+                size: _activity == Activities.running ? 45 : 40,
+                color: _activity == Activities.running
+                    ? AppTheme.primaryColor
+                    : Colors.grey,
+              ),
+            ),
+            FlatButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () {
+                setState(() {
+                  _activity = Activities.cycling;
+                });
+              },
+              child: Icon(
+                Icons.directions_bike,
+                size: _activity == Activities.cycling ? 45 : 40,
+                color: _activity == Activities.cycling
+                    ? AppTheme.primaryColor
+                    : Colors.grey,
+              ),
+            ),
+            Text(
+              _buttonClicked && _activity == Activities.none
+                  ? '* Activity Required'
+                  : '',
+              style: TextStyle(fontSize: 8, color: Colors.red),
+            )
           ],
         ),
       ),

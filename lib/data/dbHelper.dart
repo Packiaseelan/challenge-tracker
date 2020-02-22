@@ -30,7 +30,7 @@ class DBHelper {
   Future<Database> initDatabase() async {
     io.Directory directory = await getApplicationDocumentsDirectory();
     String path = join(directory.path, 'myfav.db');
-    var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    var db = await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
   }
 
@@ -69,6 +69,16 @@ class DBHelper {
         date TEXT
       )
       ''');
+  }
+
+  void _onUpgrade(Database db, int oldVersion, int newVersion) {
+    if (oldVersion < newVersion) {
+      db.execute("ALTER TABLE Challenges ADD COLUMN activity Integer;");
+      db.execute("ALTER TABLE Rides ADD COLUMN activity Integer;");
+      //
+      db.execute('UPDATE Challenges SET activity=1');
+      db.execute('UPDATE Rides SET activity=1');
+    }
   }
 
   Future<int> insertDetails(Map<String, dynamic> map) async {

@@ -1,6 +1,7 @@
 import 'package:ct/Views/components/app_button.dart';
 import 'package:ct/Views/components/calendar/calendar_popup_view.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
+import 'package:ct/core/enums/activities.dart';
 import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
@@ -26,6 +27,8 @@ class _ChallengePageState extends State<ChallengePage> {
   double initial = 0;
   String challengeName;
   String route;
+
+  Activities _activity;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +70,7 @@ class _ChallengePageState extends State<ChallengePage> {
           children: <Widget>[
             _buildTextField('Challenge name', false),
             _buildDatePicker(),
+            _buildActivityPicker(),
             _buildTextField('Target', true),
             _buildTextField('Initial', true),
             _buildRemainimg(),
@@ -141,6 +145,61 @@ class _ChallengePageState extends State<ChallengePage> {
     );
   }
 
+  Widget _buildActivityPicker() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+        child: Row(
+          children: <Widget>[
+            Text('Activity'),
+            SizedBox(
+              width: 20,
+            ),
+            FlatButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () {
+                setState(() {
+                  _activity = Activities.running;
+                });
+              },
+              child: Icon(
+                Icons.directions_run,
+                size: _activity == Activities.running ? 45 : 40,
+                color: _activity == Activities.running
+                    ? AppTheme.primaryColor
+                    : Colors.grey,
+              ),
+            ),
+            FlatButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: () {
+                setState(() {
+                  _activity = Activities.cycling;
+                });
+              },
+              child: Icon(
+                Icons.directions_bike,
+                size: _activity == Activities.cycling ? 45 : 40,
+                color: _activity == Activities.cycling
+                    ? AppTheme.primaryColor
+                    : Colors.grey,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildTextField(String text, bool isNumeric) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
@@ -171,13 +230,12 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   void onSave() {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
+    if (!_formKey.currentState.validate()) return;
+    if (_activity == Activities.none) return;
     _formKey.currentState.save();
     int id = main.selectedChallenge == null ? 0 : main.selectedChallenge.id;
     var model = ChallengeModel(id, challengeName, DateTime.now(), startDate,
-        endDate, target, initial, false);
+        endDate, target, initial, false, _activity);
 
     main.saveChallenge(model);
     Navigator.pop(context);
@@ -227,6 +285,7 @@ class _ChallengePageState extends State<ChallengePage> {
         endDate = main.selectedChallenge.endDate;
         target = main.selectedChallenge.target;
         initial = main.selectedChallenge.initial;
+        _activity = main.selectedChallenge.activity;
         remainingAverage = (target - initial) / durationInDays.round();
         _isLoad = true;
       }
