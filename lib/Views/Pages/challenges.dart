@@ -38,7 +38,7 @@ class _ChallengesPageState extends State<ChallengesPage>
 
   void _getChallenges() {
     challenges = main.challenges;
-    if (search.length <= 0) {
+    if (search.length <= 0 && !main.challengeFilter.isSelected) {
       challenges = _getFIlteredChallenges(ChallengeStatus.inProgress);
     }
     if (main.challengeFilter != null && main.challengeFilter.isSelected) {
