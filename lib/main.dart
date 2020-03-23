@@ -5,12 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-void main() {
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-  // );
-  runApp(new MyApp());
-}
+void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -20,7 +15,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: AppTheme.primaryColor,//Colors.transparent,
+      statusBarColor: AppTheme.primaryColor,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.white,
@@ -34,9 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Challenge Tracker',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: AppTheme.buildLightTheme(),
         initialRoute: Router.initialRoute,
         onGenerateRoute: Router.generateRoute,
       ),

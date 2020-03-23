@@ -2,6 +2,7 @@ import 'package:ct/Views/components/tab_bar/tab_item.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
@@ -120,11 +121,11 @@ class _FancyTabBarState extends State<FancyTabBar>
                   ),
                   TabItem(
                     selected: currentSelected == 1,
-                    iconData: Icons.directions_bike,
-                    title: 'Rides',
+                    iconData: Feather.activity,
+                    title: 'Activities',
                     callbackFunction: () {
                       setState(() {
-                        nextIcon = Icons.directions_bike;
+                        nextIcon = Feather.activity;
                         currentSelected = 1;
                       });
                       _initAnimationAndStart(_positionAnimation.value, 0);

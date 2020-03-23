@@ -1,5 +1,4 @@
-import 'package:ct/Views/components/profile/profile_view.dart';
-import 'package:ct/Views/components/profile/settings_view.dart';
+import 'package:ct/Views/components/profile/index.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';

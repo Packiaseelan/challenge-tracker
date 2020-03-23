@@ -1,7 +1,5 @@
-import 'package:ct/Views/Pages/challenges.dart';
-import 'package:ct/Views/Pages/profile.dart';
-import 'package:ct/Views/Pages/rides.dart';
-import 'package:ct/Views/components/tab_bar/fancy_tab_bar.dart';
+import 'package:ct/Views/Pages/index.dart';
+import 'package:ct/Views/components/tab_bar/index.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
@@ -28,31 +26,6 @@ class _HomePageState extends State<HomePage> {
           key: _scaffoldKey,
           body: _getBody(),
           bottomNavigationBar: FancyTabBar(),
-          // appBar: AppBar(
-          //   backgroundColor: AppTheme.primaryColor,
-          //   elevation: 20,
-          //   actions: <Widget>[
-          //     Center(
-          //         child: Text(
-          //       '${_model.detailsModel.firstName} ${_model.detailsModel.lastName}',
-          //     )),
-          //     Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: InkWell(
-          //         onTap: () {
-          //           Navigator.pushNamed(context, Router.profile);
-          //         },
-          //         child: CircleAvatar(
-          //           backgroundColor: Colors.white,
-          //           child: Icon(
-          //             Icons.person,
-          //             color: AppTheme.primaryColor,
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ),
       );
     });

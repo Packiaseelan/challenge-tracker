@@ -3,6 +3,7 @@ import 'package:ct/core/models/challenge.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProfileView extends StatefulWidget {
@@ -62,7 +63,7 @@ class _ProfileViewState extends State<ProfileView> {
               right: 0,
               bottom: 0,
               child: Icon(
-                Icons.directions_bike,
+                Feather.activity,
                 size: 100,
                 color: AppTheme.background.withOpacity(0.1),
               ),

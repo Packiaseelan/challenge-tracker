@@ -27,52 +27,54 @@
 23-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:10:9-57
 24        android:allowBackup="false"
 24-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:13:9-36
-25        android:debuggable="true"
-26        android:fullBackupContent="false"
-26-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:14:9-42
-27        android:icon="@mipmap/ic_launcher"
-27-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:12:9-43
-28        android:label="ct" >
-28-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:11:9-27
-29        <activity
-29-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:15:9-33:20
-30            android:name="com.example.ct.MainActivity"
-30-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:16:13-41
-31            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-31-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:19:13-144
-32            android:hardwareAccelerated="true"
-32-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:20:13-47
-33            android:launchMode="singleTop"
-33-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:17:13-43
-34            android:theme="@style/LaunchTheme"
-34-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:18:13-47
-35            android:windowSoftInputMode="adjustResize" >
-35-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:21:13-55
-36
-37            <!--
-38                 This keeps the window background of the activity showing
-39                 until Flutter renders its first frame. It can be removed if
-40                 there is no splash screen (such as the default splash screen
-41                 defined in @style/LaunchTheme).
-42            -->
-43            <meta-data
-43-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:26:13-28:40
-44                android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
-44-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:27:17-82
-45                android:value="true" />
-45-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:28:17-37
-46
-47            <intent-filter>
-47-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:29:13-32:29
-48                <action android:name="android.intent.action.MAIN" />
-48-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:30:17-68
-48-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:30:25-66
-49
-50                <category android:name="android.intent.category.LAUNCHER" />
-50-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:31:17-76
-50-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:31:27-74
-51            </intent-filter>
-52        </activity>
-53    </application>
-54
-55</manifest>
+25        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+25-->[com.android.support:support-compat:28.0.0] /Users/packiaseelan/.gradle/caches/transforms-2/files-2.1/eac699f134901d0d2fa5c1a81ade99d0/support-compat-28.0.0/AndroidManifest.xml:22:18-91
+26        android:debuggable="true"
+27        android:fullBackupContent="false"
+27-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:14:9-42
+28        android:icon="@mipmap/ic_launcher"
+28-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:12:9-43
+29        android:label="ct" >
+29-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:11:9-27
+30        <activity
+30-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:15:9-33:20
+31            android:name="com.example.ct.MainActivity"
+31-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:16:13-41
+32            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+32-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:19:13-144
+33            android:hardwareAccelerated="true"
+33-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:20:13-47
+34            android:launchMode="singleTop"
+34-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:17:13-43
+35            android:theme="@style/LaunchTheme"
+35-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:18:13-47
+36            android:windowSoftInputMode="adjustResize" >
+36-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:21:13-55
+37
+38            <!--
+39                 This keeps the window background of the activity showing
+40                 until Flutter renders its first frame. It can be removed if
+41                 there is no splash screen (such as the default splash screen
+42                 defined in @style/LaunchTheme).
+43            -->
+44            <meta-data
+44-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:26:13-28:40
+45                android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
+45-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:27:17-82
+46                android:value="true" />
+46-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:28:17-37
+47
+48            <intent-filter>
+48-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:29:13-32:29
+49                <action android:name="android.intent.action.MAIN" />
+49-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:30:17-68
+49-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:30:25-66
+50
+51                <category android:name="android.intent.category.LAUNCHER" />
+51-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:31:17-76
+51-->/Users/packiaseelan/Downloads/samoke/challenge-tracker/android/app/src/main/AndroidManifest.xml:31:27-74
+52            </intent-filter>
+53        </activity>
+54    </application>
+55
+56</manifest>

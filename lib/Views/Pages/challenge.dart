@@ -1,5 +1,5 @@
 import 'package:ct/Views/components/app_button.dart';
-import 'package:ct/Views/components/calendar/calendar_popup_view.dart';
+import 'package:ct/Views/components/calendar/index.dart';
 import 'package:ct/Views/components/sub_title_bar.dart';
 import 'package:ct/core/enums/activities.dart';
 import 'package:ct/core/models/challenge.dart';

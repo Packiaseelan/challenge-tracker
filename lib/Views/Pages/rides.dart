@@ -8,6 +8,7 @@ import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';
 import 'package:ct/styles/appTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class RidesPage extends StatefulWidget {
@@ -139,9 +140,9 @@ class _RidesPageState extends State<RidesPage> with TickerProviderStateMixin {
 
   Widget _nodata() {
     return NoData(
-      icon: Icons.directions_bike,
-      description: 'Click on the + icon to add new ride.',
-      message: 'No rides available.',
+      icon: Feather.activity,
+      description: 'Click on the + icon to add new activity.',
+      message: 'No activity available.',
     );
   }
 

@@ -1,6 +1,4 @@
-import 'package:ct/Views/components/challenge_details/details_view.dart';
-import 'package:ct/Views/components/challenge_details/rides_listview.dart';
-import 'package:ct/Views/components/challenge_details/titleView.dart';
+import 'package:ct/Views/components/challenge_details/index.dart';
 import 'package:ct/Views/router.dart';
 import 'package:ct/core/models/ride.dart';
 import 'package:ct/core/models/scoped/main.dart';

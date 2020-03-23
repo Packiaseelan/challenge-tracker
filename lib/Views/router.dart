@@ -1,14 +1,4 @@
-import 'package:ct/Views/Pages/add_ride.dart';
-import 'package:ct/Views/Pages/challenge.dart';
-import 'package:ct/Views/Pages/challenge_details.dart';
-import 'package:ct/Views/Pages/challenge_filter.dart';
-import 'package:ct/Views/Pages/challenges.dart';
-import 'package:ct/Views/Pages/details.dart';
-import 'package:ct/Views/Pages/home.dart';
-import 'package:ct/Views/Pages/profile.dart';
-import 'package:ct/Views/Pages/ride_filter.dart';
-import 'package:ct/Views/Pages/rides.dart';
-import 'package:ct/Views/Pages/welcome.dart';
+import 'package:ct/Views/Pages/index.dart';
 import 'package:ct/Views/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 

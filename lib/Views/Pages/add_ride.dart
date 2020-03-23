@@ -238,3 +238,4 @@ class _AddNewRidesPageState extends State<AddNewRidesPage> {
     );
   }
 }
+
